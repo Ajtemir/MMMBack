@@ -8,7 +8,7 @@ namespace MegaMarketMall.Services.Methods
         public static User CreateUser(RegisterUserDto userDto)
         {
             PasswordMethods.CreatePasswordHashSalt(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            return new User()
+            return new User
             {
                 Email = userDto.Email,
                 Username = userDto.Username,

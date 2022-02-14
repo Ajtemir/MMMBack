@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using MegaMarketMall.Models;
 using MegaMarketMall.Models.Dto;
@@ -41,12 +39,10 @@ namespace MegaMarketMall.Controllers
                     Directory.CreateDirectory(_environment.WebRootPath + directory);
                 
                 string fileName = Guid.NewGuid().ToString().Replace("-", "") + System.IO.Path.GetExtension(file.FileName);
-                using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + directory + fileName))
-                {
-                    await file.CopyToAsync(fileStream);
-                    fileStream.Flush();
-                    avatar = Request.Scheme + "://" + Request.Host + directory + fileName;
-                }
+                await using var fileStream = System.IO.File.Create(_environment.WebRootPath + directory + fileName);
+                await file.CopyToAsync(fileStream);
+                fileStream.Flush();
+                avatar = Request.Scheme + "://" + Request.Host + directory + fileName;
             }
 
             User user = UserMethods.CreateUser(request);
@@ -69,44 +65,10 @@ namespace MegaMarketMall.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(userDto.Email));
             if (user is null)
                 return BadRequest("User not found");
-            if (!await PasswordMethods.VerifyPasswordHash(userDto, user))
+            if (!PasswordMethods.VerifyPasswordHash(userDto, user))
                 return BadRequest("Wrong Password");
             return Ok();
         }
-        
-        
-
-
-
-
-        /* Helpers Methods */
-        // TODO delete 
-        // private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        // {
-        //     using (var hmac = new HMACSHA512())
-        //     {
-        //         passwordSalt = hmac.Key;
-        //         passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        //     }
-        // }
-
-        
-
-        // private User CreateUser(RegisterUserDto userDto)
-        // {
-        //     PasswordMethods.CreatePasswordHashSalt(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
-        //     return new User()
-        //     {
-        //         Email = userDto.Email,
-        //         Username = userDto.Username,
-        //         Phone = userDto.Phone,
-        //         Firstname = userDto.Firstname,
-        //         Lastname = userDto.Lastname,
-        //         Patronymic = userDto.Patronymic,
-        //         PasswordHash = passwordHash,
-        //         PasswordSalt = passwordSalt
-        //     };
-        // }
     }
     
     

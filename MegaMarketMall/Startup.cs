@@ -35,9 +35,7 @@ namespace MegaMarketMall
             services.AddControllers()
                 .AddNewtonsoftJson(x =>
                     x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-                // .AddJsonOptions(x =>
-                // x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-            ;
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "MegaMarketMall", Version = "v1"});
