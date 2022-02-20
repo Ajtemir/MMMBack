@@ -6,13 +6,14 @@ namespace MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances
     [Table("Conditioner")]
     public class Conditioner : Product
     {
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
+        
         [ForeignKey("BrandId")]
         public ConditionerBrand Brand { get; set; }
         public string BrandName => Brand.Name;
-        public  string Type { get; set; }
-        public string MountingTheIndoorUnit { get; set; }
-        public string TypeCompressor { get; set; }
+        public string Type { get; set; } = null;
+        public string MountingTheIndoorUnit { get; set; } = null;
+        public string TypeCompressor { get; set; } = null;
 
     }
 

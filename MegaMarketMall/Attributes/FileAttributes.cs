@@ -1,10 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-namespace MegaMarketMall.Services.Attributes
+namespace MegaMarketMall.Attributes
 {
     public class FileAttributes
     {

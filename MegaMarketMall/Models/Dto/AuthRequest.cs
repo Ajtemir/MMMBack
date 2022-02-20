@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MegaMarketMall.Models.Dto
 {
-    public class AuthUserDto
+    public class AuthRequest
     {
         [Required]
         public string Email { get; set; } 

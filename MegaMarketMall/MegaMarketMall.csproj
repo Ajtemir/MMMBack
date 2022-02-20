@@ -13,10 +13,24 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Services" />
       <Folder Include="wwwroot" />
+      <Folder Include="wwwroot\UploadedUsersAvatar" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\36c0f0dbcf5b45d4b5db48848c0dcce6.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\3d88951effc949e194f867d79a3a816e.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\4bab06d20b6747e2ae825726d7a958c3.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\91bf84cde62642eda0e2959e52084dcf.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\9471b9b4e9db470bbec063adc4c5aab1.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\973e6c9c607d41cb846b7d566d048f76.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\c9d680aedfc54c76831bf065049819a8.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\f0736b28701f48c5a7214eb45b00321c.png" />
     </ItemGroup>
 
 </Project>

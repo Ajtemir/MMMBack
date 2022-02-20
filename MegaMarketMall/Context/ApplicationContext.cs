@@ -1,3 +1,4 @@
+using MegaMarketMall.Methods;
 using MegaMarketMall.Models.Categories;
 using MegaMarketMall.Models.Products;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments;
@@ -14,9 +15,8 @@ using MegaMarketMall.Models.Relations;
 using MegaMarketMall.Models.Users;
 using MegaMarketMall.TestData;
 using Microsoft.EntityFrameworkCore;
-using MegaMarketMall.Services.Methods;
 
-namespace MegaMarketMall.Models
+namespace MegaMarketMall.Context
 {
     public class ApplicationContext : DbContext
     {
@@ -43,11 +43,7 @@ namespace MegaMarketMall.Models
         public DbSet<UserTest> UserTests { get; set; }
 
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options){}
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -87,9 +83,56 @@ namespace MegaMarketMall.Models
                 new User{Id=1,Email = "User@gmail.com",Firstname = "User",Lastname = "Userov", Role="User", PasswordHash = passwordHash, PasswordSalt = passwordSalt},
                 new User{Id=2,Email = "Seller@gmail.com",Firstname = "Seller",Lastname = "Sellerov", Role = "Seller", PasswordHash = passwordHash, PasswordSalt = passwordSalt},
                 new User{Id=3,Email = "Admin@gmail.com",Firstname = "Admin",Lastname = "Adminov",Role = "Admin", PasswordHash = passwordHash, PasswordSalt = passwordSalt},
-                new User{Id=4,Email = "Owner@gmail.com", Firstname = "Owner", Lastname = "Ownerov", Role = "Owner", PasswordHash = passwordHash, PasswordSalt = passwordSalt}
+                new User{Id=4,Email = "Owner@gmail.com", Firstname = "Owner", Lastname = "Ownerov", Role = "Owner", PasswordHash = passwordHash, PasswordSalt = passwordSalt},
+                new User{Id=5,Email = "Seller1@gmail.com",Firstname = "Seller1",Lastname = "Sellerov1", Role = "Seller", PasswordHash = passwordHash, PasswordSalt = passwordSalt}
+
+            );
+
+            modelBuilder.Entity<Seller>().HasData(
+                new Seller
+                {
+                    Id = 1,
+                    UserId = 2,
+                },
+                new Seller
+                {
+                    Id = 2,
+                    UserId = 5,
+                }
             );
             
+            modelBuilder.Entity<ConditionerBrand>().HasData(
+                new ConditionerBrand
+                {
+                    Id = 1,
+                    Name = "LG",
+                },
+                new ConditionerBrand
+                {
+                    Id = 2,
+                    Name = "Panasonic",
+                }
+                
+            );
+
+            modelBuilder.Entity<Conditioner>().HasData(
+                    new Conditioner
+                    {
+                        Id = 1,
+                        SellerId = 1,
+                        CategoryId = 12,
+                        BrandId = 1
+                    },
+                    new Conditioner
+                    {
+                        Id = 2,
+                        SellerId = 1,
+                        CategoryId = 12,
+                        BrandId = 1
+                    }
+                    
+            );
+
             // TODO => think about above
         }
         

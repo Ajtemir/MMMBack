@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MegaMarketMall.Context;
 using MegaMarketMall.Extensions;
 using MegaMarketMall.Models;
 using MegaMarketMall.Models.Categories;
@@ -51,7 +53,7 @@ namespace MegaMarketMall.Controllers
             if (string.IsNullOrWhiteSpace(name))
                 return BadRequest("Category name mustn't be null or not be empty");
             if (_context.Categories.Any(c => c.Name == name))
-                return BadRequest("Category is consist an so rename category name");
+                return BadRequest("Category is consist and so rename category name");
             var parentCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Name == parentName);
             if (parentCategory is null)
                 return BadRequest("Parent category does not consist");
@@ -59,6 +61,14 @@ namespace MegaMarketMall.Controllers
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
             return Ok(category);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<Category>>> GetAllLowestCategories()
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(c=>c.Name=="all");
+            var categories = await category.GetLowestSubCategories(_context);
+            return Ok(categories);
         }
 
 

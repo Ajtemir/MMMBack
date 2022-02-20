@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using MegaMarketMall.Services.Attributes;
+using MegaMarketMall.Attributes;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -18,13 +18,13 @@ namespace MegaMarketMall.Models.Dto
         [FileAttributes.MaxFileSizeAttribute(5 * 1024 * 1024)]
         [FileAttributes.AllowedExtensionsAttribute(new [] {".jpg", ".png"})]
         public IFormFile Avatar { get; set; } = null;
-        [JsonIgnore]
-        public string AvatarPath { get; set; }
+
+        public string AvatarPath {internal get; set; } = null;
+
         public string Username { get; set; } = null;
         public string Phone { get; set; } = null;
         public string Firstname { get; set; } = null;
         public string Lastname { get; set; } = null;
         public string Patronymic { get; set; } = null;
-        
     }
 }
