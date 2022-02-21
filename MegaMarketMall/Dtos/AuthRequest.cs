@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MegaMarketMall.Models.Dto
+namespace MegaMarketMall.Dtos
 {
     public class AuthRequest
     {

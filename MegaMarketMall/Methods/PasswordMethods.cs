@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Security.Cryptography;
-using MegaMarketMall.Models.Dto;
+using MegaMarketMall.Dtos;
 using MegaMarketMall.Models.Users;
 
 namespace MegaMarketMall.Methods

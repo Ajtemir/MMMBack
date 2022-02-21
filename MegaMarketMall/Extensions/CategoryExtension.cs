@@ -5,6 +5,7 @@ using MegaMarketMall.Context;
 using MegaMarketMall.Models;
 using MegaMarketMall.Models.Categories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MegaMarketMall.Extensions
 {

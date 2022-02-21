@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using MegaMarketMall.Attributes;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
-namespace MegaMarketMall.Models.Dto
+namespace MegaMarketMall.Dtos
 {
     public class RegisterUserDto
     {

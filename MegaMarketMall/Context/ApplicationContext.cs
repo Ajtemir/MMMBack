@@ -12,6 +12,7 @@ using MegaMarketMall.Models.Products.ProductBrands.MensFootwearBrands;
 using MegaMarketMall.Models.Products.ProductBrands.WashingMachineBrands;
 using MegaMarketMall.Models.Products.ProductBrands.WristWatchBrands;
 using MegaMarketMall.Models.Relations;
+using MegaMarketMall.Models.Tokens;
 using MegaMarketMall.Models.Users;
 using MegaMarketMall.TestData;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,9 @@ namespace MegaMarketMall.Context
         public DbSet<ConditionerBrand> ConditionerBrands { get; set; }
         public DbSet<WashingMachineBrand> WashingMachineBrands { get; set; }
         public DbSet<WristWatchBrand> WristWatchBrands { get; set; }
+        
+        //Tokens
+        public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
         
         // Test
         public DbSet<UserTest> UserTests { get; set; }
@@ -134,6 +138,7 @@ namespace MegaMarketMall.Context
             );
 
             // TODO => think about above
+            // TODO => think about email check lowercase
         }
         
     }

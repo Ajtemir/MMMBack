@@ -40,3 +40,10 @@
 /home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Newtonsoft.Json.dll
 /home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Newtonsoft.Json.Bson.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.Logging.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.Tokens.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/System.IdentityModel.Tokens.Jwt.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.Protocols.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

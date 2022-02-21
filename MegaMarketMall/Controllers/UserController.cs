@@ -1,13 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using MegaMarketMall.Context;
+using MegaMarketMall.Dtos;
 using MegaMarketMall.Extensions;
 using MegaMarketMall.Methods;
 using MegaMarketMall.Models;
-using MegaMarketMall.Models.Dto;
+using MegaMarketMall.Models.Tokens;
 using MegaMarketMall.Models.Users;
+using MegaMarketMall.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +25,14 @@ namespace MegaMarketMall.Controllers
     {
         private readonly ApplicationContext _context;
         private readonly IWebHostEnvironment _environment;
+        private readonly IJwtService _jwtService;
 
 
-        public UserController(ApplicationContext context, IWebHostEnvironment environment)
+        public UserController(ApplicationContext context, IWebHostEnvironment environment, IJwtService jwtService)
         {
             _context = context;
             _environment = environment;
+            _jwtService = jwtService;
         }
 
         [HttpPost("[action]")]
@@ -42,6 +49,7 @@ namespace MegaMarketMall.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize(Roles = "Seller")]
         public async Task<ActionResult<List<User>>> GetAllUsers()
         {
             var allUsers = await _context.Users.ToListAsync();
@@ -51,14 +59,62 @@ namespace MegaMarketMall.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<string>> AuthUser(AuthRequest request)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(request.Email));
+            var user = await _context.Users.
+                FirstOrDefaultAsync(u => u.Email.Equals(request.Email));
             if (user is null)
                 return BadRequest("User not found");
             if(!user.CheckPassword(request.Password))
                 return BadRequest("Wrong Password");
-            // if (!PasswordMethods.VerifyPasswordHash(request, user))
-            //     return BadRequest("Wrong Password");
-            return Ok();
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var authResponse = await _jwtService.GetBothTokensAsync(user, ipAddress);
+            if (authResponse is null)
+                return Unauthorized();
+            return Ok(authResponse);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new AuthResponse{IsSuccess = false, Reason = "Tokens must be provided"});
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var token = GetJwtToken(request.ExpiredToken);
+            var userRefreshToken = _context.UserRefreshTokens.FirstOrDefault(
+                x => x.IsInvalidated == false && x.AccessToken == request.ExpiredToken
+                                              && x.RefreshToken == request.RefreshToken
+                                              && x.IpAddress == ipAddress);
+            AuthResponse response = ValidateDetails(token, userRefreshToken);
+            if (!response.IsSuccess)
+                return BadRequest(response);
+            userRefreshToken.IsInvalidated = true;
+            _context.UserRefreshTokens.Update(userRefreshToken);
+            await _context.SaveChangesAsync();
+            
+            var email = token.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Email)?.Value;
+            Console.WriteLine(email); // TODO remove
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var authResponse = await _jwtService.GetRefreshTokenAsync(user,ipAddress);
+            return Ok(authResponse);
+        }
+
+        private AuthResponse ValidateDetails(JwtSecurityToken token, UserRefreshToken userRefreshToken)
+        {
+            Console.WriteLine($"{token.ValidTo} > {DateTime.UtcNow}"); //TODO remove
+
+            if (userRefreshToken == null)
+                return new AuthResponse() {IsSuccess = false, Reason = "Invalid Token Details."};
+            if (token.ValidTo > DateTime.UtcNow) //TODO utc 
+                return new AuthResponse() {IsSuccess = false, Reason = "Token not expired."};
+            if (!userRefreshToken.IsActive)
+                return new AuthResponse() {IsSuccess = false, Reason = "Refresh Token Expired."};
+            return new AuthResponse() {IsSuccess = true};
+
+
+        }
+        private JwtSecurityToken GetJwtToken(string expiredToken)
+        {
+            JwtSecurityTokenHandler tokenHandler = new();
+            return tokenHandler.ReadJwtToken(expiredToken);
         }
     }
     
