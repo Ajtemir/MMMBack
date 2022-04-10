@@ -1,22 +1,22 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using MegaMarketMall.Models.Products.ProductBrands.WashingMachineBrands;
+using MegaMarketMall.Data.Enums.WashingMachine;
+using MegaMarketMall.Data.Interfaces.Cluster;
+using MegaMarketMall.Data.Interfaces.Product;
+using MegaMarketMall.Models.Brands;
 
 namespace MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.WashingMachines
 {
     [Table("WashingMachine")]
-    public class WashingMachine : Product
+    public class WashingMachine : HouseHoldAppliance, IWashingMachine, IBrandFk
     {
         public int? BrandId { get; set; } = null;
         [ForeignKey("BrandId")]
         public WashingMachineBrand Brand { get; set; }
         public string BrandName => Brand.Name;  //TODO => think about brand name
-        public string TypeDownload { get; set; }
-        public int MaxDownload { get; set; }
-        public string TypeOfMachine { get; set; }
-        public string SizeMachine { get; set; }
-        
-        
-        
-        
+
+
+        public Type? Type { get; set; } 
+        public DownloadType? DownloadType { get; set; }
+        public Size? Size { get; set; }
     }
 }

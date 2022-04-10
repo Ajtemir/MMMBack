@@ -5,9 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using AutoMapper;
 using MegaMarketMall.Context;
+using MegaMarketMall.Mapper;
 using MegaMarketMall.Models;
+using MegaMarketMall.Repository;
 using MegaMarketMall.Services;
+using MegaMarketMall.Services.Cluster.SewingMachineService;
+using MegaMarketMall.TestData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MegaMarketMall
 {
@@ -36,11 +42,39 @@ namespace MegaMarketMall
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddAutoMapper(typeof(Startup));
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddHttpContextAccessor();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IConditionerService, ConditionerService>();
+            services.AddScoped<ISewingMachineService, SewingMachineService>();
+            services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+            services.AddScoped(typeof(IBrandRepository<,>),typeof(BrandRepository<,>));
+            services.AddScoped<IProductPhotoService, ProductPhotoService>();
+            //TODO Test
+            services.AddScoped<ITestService, TestService>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
             services.AddControllers()
+                // .AddJsonOptions(o =>
+                // {
+                //     o.JsonSerializerOptions.IgnoreNullValues = true;
+                //     o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+                // })
                 .AddNewtonsoftJson(x =>
-                    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+                {
+                    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    x.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
+                    
             
             services.AddSwaggerGen(c =>
             {

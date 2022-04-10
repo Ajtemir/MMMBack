@@ -2,12 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaMarketMall.Context;
-using MegaMarketMall.Models;
 using MegaMarketMall.Models.Categories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace MegaMarketMall.Extensions
+namespace MegaMarketMall.Data.Extensions
 {
     public static class CategoryExtension
     {
@@ -21,16 +19,10 @@ namespace MegaMarketMall.Extensions
                 Category current = queue.Dequeue();
                 await db.Categories.Where(c=>c.ParentCategoryId == current.Id).LoadAsync();
                 if (current.SubCategories.Any())
-                {
                     foreach (var subCategory in current.SubCategories)
-                    {
                         queue.Enqueue(subCategory);
-                    }
-                }
                 else
-                {
                     categories.Add(current);
-                }
             }
             categories.Remove(category);
             return categories;

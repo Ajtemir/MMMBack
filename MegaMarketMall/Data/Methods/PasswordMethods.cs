@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using MegaMarketMall.Dtos;
 using MegaMarketMall.Models.Users;
 
-namespace MegaMarketMall.Methods
+namespace MegaMarketMall.Data.Methods
 {
     public static class PasswordMethods
     {

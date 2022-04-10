@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using MegaMarketMall.Models.Products.ProductBrands.MensFootwearBrands;
+using MegaMarketMall.Models.ProductBrands.MensFootwearBrands;
 
 namespace MegaMarketMall.Models.Products.Cluster.PersonalItems.MensFootwear
 {
     [Table("MensFootwear")]
-    public class MensFootwear : Product
+    public class MensFootwear : PersonalItem
     {
         [Column("Size", TypeName = "integer[]")]
         public int[] Size { get; set; }

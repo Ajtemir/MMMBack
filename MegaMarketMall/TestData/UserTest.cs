@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MegaMarketMall.TestData
 {
@@ -15,5 +16,17 @@ namespace MegaMarketMall.TestData
         public string Username { get; set; }
         [Required] public int? Age { get; set; } = null;
         public string Patronymic { get; set; } = null;
+        public Statuses? Status { internal get; set; } = null;
+        public string Stat => Status.ToString();
+
+        
+
+        public enum Statuses
+        {
+            member=1,
+            employee,
+            teacher
+        }
+        
     }
 }

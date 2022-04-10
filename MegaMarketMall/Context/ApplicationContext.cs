@@ -1,21 +1,27 @@
-using MegaMarketMall.Methods;
+using System;
+using MegaMarketMall.Data.Methods;
+using MegaMarketMall.Models.Brands;
 using MegaMarketMall.Models.Categories;
 using MegaMarketMall.Models.Products;
+using MegaMarketMall.Models.Products.Cluster.Electronics;
+using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments;
+using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments.Conditioner;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.OthersHouseHoldAppliances;
+using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.WashingMachines;
+using MegaMarketMall.Models.Products.Cluster.PersonalItems;
+using MegaMarketMall.Models.Products.Cluster.PersonalItems.Accessories;
 using MegaMarketMall.Models.Products.Cluster.PersonalItems.Accessories.Jewelry;
 using MegaMarketMall.Models.Products.Cluster.PersonalItems.Accessories.WristWatches;
 using MegaMarketMall.Models.Products.Cluster.PersonalItems.MensFootwear;
-using MegaMarketMall.Models.Products.ProductBrands.Conditionerbrands;
-using MegaMarketMall.Models.Products.ProductBrands.MensFootwearBrands;
-using MegaMarketMall.Models.Products.ProductBrands.WashingMachineBrands;
-using MegaMarketMall.Models.Products.ProductBrands.WristWatchBrands;
 using MegaMarketMall.Models.Relations;
 using MegaMarketMall.Models.Tokens;
 using MegaMarketMall.Models.Users;
 using MegaMarketMall.TestData;
 using Microsoft.EntityFrameworkCore;
+using SewingMachineBrand = MegaMarketMall.Models.ProductBrands.SewingMachineBrands.SewingMachineBrand;
+using WashingMachineBrand = MegaMarketMall.Models.ProductBrands.WashingMachineBrands.WashingMachineBrand;
 
 namespace MegaMarketMall.Context
 {
@@ -23,28 +29,50 @@ namespace MegaMarketMall.Context
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Seller> Sellers { get; set; }
+        // public DbSet<Seller> Sellers { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPhoto> ProductPhotos { get; set; }
         public DbSet<MensFootwear> MensFootwears { get; set; }
         public DbSet<Jewelry> Jewelries { get; set; }
-        public DbSet<Conditioner> Conditioner { get; set; }
+        public DbSet<Conditioner> Conditioners { get; set; }
         public DbSet<OtherHouseHoldAppliance> OtherHouseHoldAppliances { get; set; }
         public DbSet<WashingMachine> WashingMachines { get; set; }
         public DbSet<WristWatch> WristWatches { get; set; }
-        
+        public DbSet<SewingMachine> SewingMachines { get; set; }
+
         //Brands
-        public DbSet<MensFootwearBrand> MensFootwearBrands { get; set; }
+        // public DbSet<MensFootwearBrand> MensFootwearBrands { get; set; }
+        // public DbSet<ConditionerBrand> ConditionerBrands { get; set; }
+        // public DbSet<WashingMachineBrand> WashingMachineBrands { get; set; }
+        // public DbSet<WristWatchBrand> WristWatchBrands { get; set; }
+        
+        // Brands Improve
+        public DbSet<Brand> Brands { get; set; }
         public DbSet<ConditionerBrand> ConditionerBrands { get; set; }
         public DbSet<WashingMachineBrand> WashingMachineBrands { get; set; }
-        public DbSet<WristWatchBrand> WristWatchBrands { get; set; }
-        
+        public DbSet<SewingMachineBrand> SewingMachineBrands { get; set; }
+
         //Tokens
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
         
         // Test
         public DbSet<UserTest> UserTests { get; set; }
+        public DbSet<SellerTest> SellerTests { get; set; }
+        public DbSet<OwnerTest> OwnerTests { get; set; }
+        public DbSet<ProductTest> ProductTests { get; set; }
+        
+        public DbSet<BrandTest> BrandTests { get; set; }
+        public DbSet<WMBrand> WmBrands { get; set; }
+        public DbSet<SmBrand> SmBrands { get; set; }
+        
+        // Test
+        public DbSet<Electronic> Electronics { get; set; }
+        public DbSet<HouseHoldAppliance> HouseHoldAppliances { get; set; }
+        public DbSet<ClimaticEquipment> ClimaticEquipments { get; set; }
+        public DbSet<Accessory> Accessories { get; set; }
+        public DbSet<PersonalItem> PersonalItems { get; set; }
+
 
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options){}
@@ -119,26 +147,67 @@ namespace MegaMarketMall.Context
                 
             );
 
+            modelBuilder.Entity<WristWatchBrand>().HasData(
+                    new WristWatchBrand()
+                    {
+                        Id = 3,
+                        Name = "Rolex"
+                        
+                    }
+                );
+
+            modelBuilder.Entity<SewingMachineBrand>().HasData(
+                new SewingMachineBrand()
+                {
+                    Id = 4,
+                    Name = "Toyota"
+                }
+            );
+
             modelBuilder.Entity<Conditioner>().HasData(
                     new Conditioner
                     {
                         Id = 1,
-                        SellerId = 1,
+                        SellerId = 2,
                         CategoryId = 12,
                         BrandId = 1
                     },
                     new Conditioner
                     {
                         Id = 2,
-                        SellerId = 1,
+                        SellerId = 5,
                         CategoryId = 12,
                         BrandId = 1
                     }
                     
             );
+            modelBuilder.Entity<WristWatch>().HasData(
+                    new WristWatch()
+                    {
+                        Id = 3,
+                        SellerId = 5,
+                        CategoryId = 5,
+                        BrandId = 3  
+                    }
+            );
+
+            modelBuilder.Entity<SewingMachine>().HasData(
+                new SewingMachine()
+                {
+                    Id =4,
+                    SellerId = 5,
+                    CategoryId = 4 
+                }
+            );
 
             // TODO => think about above
             // TODO => think about email check lowercase
+            // Test configuration
+            // modelBuilder.Entity<ProductTest>()
+            //     .Property(c => c.Type)
+            //     .HasConversion(
+            //         v => v.ToString(),
+            //         v => (ProductTest.Types)Enum.Parse(typeof(ProductTest.Types), v));
         }
         
     }

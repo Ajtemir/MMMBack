@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using MegaMarketMall.Attributes;
+using MegaMarketMall.Data.Attributes;
 using Microsoft.AspNetCore.Http;
 
 namespace MegaMarketMall.Dtos
@@ -14,8 +14,8 @@ namespace MegaMarketMall.Dtos
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&-]{8,20}$")] // TODO add more special characters
         public string Password { get; set; }
 
-        [FileAttributes.MaxFileSizeAttribute(5 * 1024 * 1024)]
-        [FileAttributes.AllowedExtensionsAttribute(new [] {".jpg", ".png"})]
+        [MaxFileSize(5 * 1024 * 1024)]
+        [AllowedExtensions(new [] {".jpg", ".png"})]
         public IFormFile Avatar { get; set; } = null;
 
         public string AvatarPath {internal get; set; } = null;

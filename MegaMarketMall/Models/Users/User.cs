@@ -25,8 +25,9 @@ namespace MegaMarketMall.Models.Users
         public bool IsDeleted { get; set; } = false;
 
         public string Avatar { get; set; } = null;
+        public Seller Seller { get; set; }
 
-        public List<Seller> Sellers { get; set; } = null;
+        // public List<Seller> Sellers { get; set; } = null;
         // public string Password { internal get; set; } // TODO => without hashing
         // TODO => make salt
         // TODO => TimeStamp

@@ -61,5 +61,11 @@ namespace MegaMarketMall.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult> GetUser()
+        {
+            return Ok(await _context.UserTests.FirstOrDefaultAsync(u=>u.Id==1));
+        }
     }
 }

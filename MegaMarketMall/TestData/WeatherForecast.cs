@@ -93,3 +93,17 @@ namespace MegaMarketMall.TestData
  * [Required] == ""
  * null! == null
  */
+
+
+// [Required] public int SellerId { get; set; }
+// [Required] public int CategoryId { get; set; }
+// public bool IsNew { get; set; } = true;
+// public string Description { get; set; } = null; // null отсуствует описание
+// public uint? Price { get; set; } = null; // null договорная
+// public bool? IsDelivered { get; set; } = null; //TODO => подумать об доставке null=самовызов true=беслатная false=платная
+
+//TODO LIST
+//TODO change password
+//guid
+//set role
+

@@ -10,11 +10,11 @@ namespace MegaMarketMall.Models.Users
         public int Id { get; set; }
         public string Nickname { get; set; } = null;
         public string Description { get; set; } = null;
-        public uint? AdAccount { get; set; } = null;
+        public int? AdAccount { get; set; } = null;
         public int UserId { get; set; }
         public string Avatar { get; set; } = null;
         [ForeignKey("UserId")]
-        public User Owner { get; set; }
+        public User User { get; set; }
         public List<Product> Products { get; set; } = new();
         
         //Todo подумать об проходах и контейерах

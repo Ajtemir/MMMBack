@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaMarketMall.Context;
+using MegaMarketMall.Data.Extensions;
+using MegaMarketMall.Data.Methods;
 using MegaMarketMall.Dtos;
-using MegaMarketMall.Extensions;
-using MegaMarketMall.Methods;
 using MegaMarketMall.Models;
 using MegaMarketMall.Models.Tokens;
 using MegaMarketMall.Models.Users;
@@ -86,8 +86,12 @@ namespace MegaMarketMall.Controllers
             AuthResponse response = ValidateDetails(token, userRefreshToken);
             if (!response.IsSuccess)
                 return BadRequest(response);
-            userRefreshToken.IsInvalidated = true;
-            _context.UserRefreshTokens.Update(userRefreshToken);
+            if (userRefreshToken != null)
+            {
+                userRefreshToken.IsInvalidated = true;
+                _context.UserRefreshTokens.Update(userRefreshToken);
+            }
+
             await _context.SaveChangesAsync();
             
             var email = token.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Email)?.Value;
@@ -99,10 +103,9 @@ namespace MegaMarketMall.Controllers
 
         private AuthResponse ValidateDetails(JwtSecurityToken token, UserRefreshToken userRefreshToken)
         {
-            Console.WriteLine($"{token.ValidTo} > {DateTime.UtcNow}"); //TODO remove
 
             if (userRefreshToken == null)
-                return new AuthResponse() {IsSuccess = false, Reason = "Invalid Token Details."};
+                return new AuthResponse() {IsSuccess = false, Reason = "Invalid Token Details.Incorrect access Token."};
             if (token.ValidTo > DateTime.UtcNow) //TODO utc 
                 return new AuthResponse() {IsSuccess = false, Reason = "Token not expired."};
             if (!userRefreshToken.IsActive)

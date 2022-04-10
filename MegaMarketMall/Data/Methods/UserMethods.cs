@@ -6,7 +6,7 @@ using MegaMarketMall.Models.Users;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace MegaMarketMall.Methods
+namespace MegaMarketMall.Data.Methods
 {
     public static class UserMethods
     {

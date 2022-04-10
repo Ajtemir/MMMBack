@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaMarketMall.Context;
-using MegaMarketMall.Extensions;
-using MegaMarketMall.Models;
+using MegaMarketMall.Data.Extensions;
 using MegaMarketMall.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -70,6 +69,8 @@ namespace MegaMarketMall.Controllers
             var categories = await category.GetLowestSubCategories(_context);
             return Ok(categories);
         }
+        
+       
 
 
 

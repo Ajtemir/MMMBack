@@ -47,3 +47,10 @@
 /home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.JsonWebTokens.dll
 /home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.Protocols.dll
 /home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/AutoMapper.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.Extensions.Options.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/Microsoft.Extensions.Primitives.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/System.Runtime.CompilerServices.Unsafe.dll
+/home/aitemir/csharp_cmd/RealProjects/MegaMarketMall/MegaMarketMall/bin/Debug/net5.0/JsonPatch.Restrict.dll
