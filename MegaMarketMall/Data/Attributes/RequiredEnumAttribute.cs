@@ -1,0 +1,15 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace MegaMarketMall.Data.Attributes
+{
+    public class RequiredEnumAttribute : RequiredAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null) return true;
+            var type = value.GetType();
+            return type.IsEnum && Enum.IsDefined(type, value);
+        }
+    }
+}

@@ -23,7 +23,6 @@
       <Folder Include="Data" />
       <Folder Include="Data\Interfaces\Patch" />
       <Folder Include="wwwroot" />
-      <Folder Include="wwwroot\UploadedUsersAvatar" />
     </ItemGroup>
 
     <ItemGroup>
@@ -35,6 +34,33 @@
       <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\973e6c9c607d41cb846b7d566d048f76.png" />
       <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\c9d680aedfc54c76831bf065049819a8.png" />
       <_ContentIncludedByDefault Remove="wwwroot\UploadedUsersAvatar\f0736b28701f48c5a7214eb45b00321c.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\0a95742838e240ec82db336c6d75fcad.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\0d0e6a79383343dea791bf892e7cbf4d.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\1269e6471b4843d789e96f9bdc927e5f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\12f9659123744b7095c1360dc61daf97.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\23a5b09eddfb48b495b014871ec3b753.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\4413c0a5da2349fe91086669d38344ad.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\485198672a1c4b3fb819fc07ad621de6.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\4f50a48b03344cc2845546c9efca1df4.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\691d691f7d1c4788a09564ca02a3a550.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\6999d4905707419882d261c3041b8c29.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\6c9e983dd4dd4db5a9c3ddf75c1306ed.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\6d4841867da64c59a7e9b39a4aae4275.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\72798b9b9a85476696a93c9083543f86.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\729c474e614b48ca9c1f66717988b07d.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\73efac0bdb3e49f18300152a0dca73b3.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\802a98d081b14f54b3945a083f180436.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\892045a0d7774f3a968941c4087949e5.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\9145f6af30f7469db0c7100e2b3b3423.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\93d69806687844dcac5c1e4b88a8383c.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\a0ed42a1fe75430aa4a5687f2553bcad.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\a83c1602ffd84fb9af9660f0447407d6.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\b3ea2441cdc940a7b67208e8309ecf34.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\bcaaa6ed7e164d339e9647a1ff600378.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\da242f5f455f42c2b657d140d79bd5c1.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\da6ffd17532b44b1a51e0e745144a4a3.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\f94786a5995b46ab9dfb9507c676180f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\UploadedProductsPhotos\f96e43f725dd4cb89126002ac6b33611.png" />
     </ItemGroup>
 
 </Project>
