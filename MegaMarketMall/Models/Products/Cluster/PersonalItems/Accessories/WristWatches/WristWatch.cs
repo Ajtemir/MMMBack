@@ -4,7 +4,7 @@ using MegaMarketMall.Models.Brands;
 namespace MegaMarketMall.Models.Products.Cluster.PersonalItems.Accessories.WristWatches
 {
     [Table("WristWatch")]
-    public class WristWatch : Accessory
+    public class WristWatch : Product
     {
         public string Mechanism { get; set; }
         public string Gender { get; set; }

@@ -24,22 +24,20 @@ namespace MegaMarketMall.Services
         private readonly IMapper _mapper;
         private readonly IProductPhotoService _photos;
         private readonly IUserService _user;
-        private readonly IBrandRepository<ConditionerBrand,Conditioner> _brand;
         private readonly IRepository<Conditioner> _repository;
 
 
 
-        public ConditionerService(ApplicationContext context, IMapper mapper, IProductPhotoService photos, IUserService user, IBrandRepository<ConditionerBrand,Conditioner> brand, IRepository<Conditioner> repository)
+        public ConditionerService(ApplicationContext context, IMapper mapper, IProductPhotoService photos, IUserService user, IRepository<Conditioner> repository)
         {
             _context = context;
             _mapper = mapper;
             _photos = photos;
             _user = user;
-            _brand = brand;
             _repository = repository;
         }
 
-        public async Task<IQueryable<Conditioner>> FilterAsync(IQueryable<Conditioner> conditioners,IConditionerGet query)
+        public IQueryable<Conditioner> Filter(IQueryable<Conditioner> conditioners,IConditionerGet query)
         {
             if (query.BrandId is not null)
             {
@@ -85,8 +83,8 @@ namespace MegaMarketMall.Services
         }
 
 
-        private async Task<ConditionerBrand> GetBrandByNameAsync(string name)
-            => await _context.ConditionerBrands
-                .FirstOrDefaultAsync(b=>b.Name.Equals(name));
+        // private async Task<ConditionerBrand> GetBrandByNameAsync(string name)
+        //     => await _context.ConditionerBrands
+        //         .FirstOrDefaultAsync(b=>b.Name.Equals(name));
     }
 }

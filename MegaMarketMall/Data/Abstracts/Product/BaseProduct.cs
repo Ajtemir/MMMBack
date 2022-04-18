@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MegaMarketMall.Data.Interfaces.Product;
+using MegaMarketMall.Models.ProductPhotos;
 using MegaMarketMall.Models.Products;
 using Newtonsoft.Json;
 

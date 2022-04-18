@@ -8,7 +8,7 @@ namespace MegaMarketMall.Services
 {
     public interface IWashingMachineService
     {
-        public Task<IQueryable<WashingMachine>> FilterAsync(IQueryable<WashingMachine> products,WashingMachineGet query);
+        public IQueryable<WashingMachine> Filter(IQueryable<WashingMachine> products, WashingMachineGet query);
         public Task CreateAsync(WashingMachinePost data);
     }
 }

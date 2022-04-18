@@ -9,10 +9,8 @@ namespace MegaMarketMall.Models.Products
 {
     public class Product : BaseProduct
     {
-        [JsonProperty("Просмотры")]
-        public uint Views { get;internal set; }
-        [JsonProperty("Избранные")]
-        public ulong Favorites { get;internal set; }
+        public int Views { get;internal set; }
+        public int Favorites { get;internal set; }
         [Key]
         public int Id { get;internal set; }
         

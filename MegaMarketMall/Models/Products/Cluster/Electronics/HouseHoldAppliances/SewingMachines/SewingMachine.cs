@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines
 {
     [Table("SewingMachine")]
-    public class SewingMachine : HouseHoldAppliance, ISewingMachine , IBrandFk
+    public class SewingMachine : Product, ISewingMachine , IBrandFk
     {
         public LoopType? LoopType { get; set; }
         public TypeOfSewingMachine? TypeOfSewingMachine { get; set; }

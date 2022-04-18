@@ -29,7 +29,7 @@ namespace MegaMarketMall.Controllers
         public async Task<ActionResult<List<Conditioner>>> Get([FromQuery]ConditionerGet query)
         {
             var conditioners = _repository.Filter(query);
-            var filtered = await _conditioner.FilterAsync(conditioners, query);
+            var filtered = _conditioner.Filter(conditioners, query);
             var result = await _repository.PaginateAsync(filtered, query);
             return Ok(result);
         }
@@ -49,5 +49,7 @@ namespace MegaMarketMall.Controllers
             await _conditioner.UpdateAsync(id, data);
             return Ok();
         }
+        
+        
     }
 }

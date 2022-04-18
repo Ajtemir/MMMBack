@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
+using MegaMarketMall.Data.Constants;
 using MegaMarketMall.Dtos.Get;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances;
 using MegaMarketMall.Repository;
+using MegaMarketMall.Services.ProductService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MegaMarketMall.Controllers
@@ -10,18 +12,20 @@ namespace MegaMarketMall.Controllers
     [ApiController]
     public class HouseHoldApplianceController : ControllerBase
     {
-        private readonly IRepository<HouseHoldAppliance> _repository;
+        private readonly IProductService _product;
 
-        public HouseHoldApplianceController(IRepository<HouseHoldAppliance> repository)
+        public HouseHoldApplianceController(IProductService product)
         {
-            _repository = repository;
+            _product = product;
         }
+        
         
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]ProductGet query)
         {
-            var filtered = _repository.Filter(query);
-            var result = await _repository.PaginateAsync(filtered, query);
+            var filtered =
+                await _product.FilterByParentCategoryIdAndQueriesAsync(query, CategoryConstants.HouseHoldAppliances);
+            var result = await _product.PaginateAsync(filtered,query);
             return Ok(result);
         }
     }

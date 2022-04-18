@@ -10,7 +10,7 @@ namespace MegaMarketMall.Services.Cluster.SewingMachineService
 {
     public interface ISewingMachineService
     {
-        Task<IQueryable<SewingMachine>> FilterAsync(IQueryable<SewingMachine> products, SewingMachineGet query);
+        IQueryable<SewingMachine> Filter(IQueryable<SewingMachine> products, SewingMachineGet query);
         Task<SewingMachine> CreateAsync(SewingMachinePost data);
         Task<SewingMachine> GetByIdAsync(int id);
         Task UpdateAsync(int id, SewingMachinePut data);

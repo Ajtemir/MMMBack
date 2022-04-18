@@ -11,7 +11,9 @@ using MegaMarketMall.Mapper;
 using MegaMarketMall.Models;
 using MegaMarketMall.Repository;
 using MegaMarketMall.Services;
+using MegaMarketMall.Services.CategoryService;
 using MegaMarketMall.Services.Cluster.SewingMachineService;
+using MegaMarketMall.Services.ProductService;
 using MegaMarketMall.TestData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -57,18 +59,13 @@ namespace MegaMarketMall
             services.AddScoped<IConditionerService, ConditionerService>();
             services.AddScoped<ISewingMachineService, SewingMachineService>();
             services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
-            services.AddScoped(typeof(IBrandRepository<,>),typeof(BrandRepository<,>));
             services.AddScoped<IProductPhotoService, ProductPhotoService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             //TODO Test
             services.AddScoped<ITestService, TestService>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
             services.AddControllers()
-                // .AddJsonOptions(o =>
-                // {
-                //     o.JsonSerializerOptions.IgnoreNullValues = true;
-                //     o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
-                // })
                 .AddNewtonsoftJson(x =>
                 {
                     x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

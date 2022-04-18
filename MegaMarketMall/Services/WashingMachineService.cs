@@ -1,41 +1,33 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MegaMarketMall.Context;
 using MegaMarketMall.Dtos.Get;
 using MegaMarketMall.Dtos.Post;
-using MegaMarketMall.Models.Brands;
-using MegaMarketMall.Models.ProductBrands.WashingMachineBrands;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.WashingMachines;
-using MegaMarketMall.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace MegaMarketMall.Services
 {
     public class WashingMachineService : IWashingMachineService
     {
-        private readonly IBrandRepository<Brand, WashingMachine> _brand;
         private readonly IUserService _user;
         private readonly IMapper _mapper;
         private readonly ApplicationContext _context;
         private readonly IProductPhotoService _photo;
 
-        public WashingMachineService(IBrandRepository<Brand, WashingMachine> brand, IUserService user, IMapper mapper, ApplicationContext context, IProductPhotoService photo)
+        public WashingMachineService(IUserService user, IMapper mapper, ApplicationContext context, IProductPhotoService photo)
         {
-            _brand = brand;
             _user = user;
             _mapper = mapper;
             _context = context;
             _photo = photo;
         }
 
-        public async Task<IQueryable<WashingMachine>> FilterAsync(IQueryable<WashingMachine> products, WashingMachineGet query)
+        public IQueryable<WashingMachine> Filter(IQueryable<WashingMachine> products, WashingMachineGet query)
         {
             if (query.BrandId != null)
-            {
                 products=products.Where(b => b.Id == query.BrandId);
-            }
             if (query.Size is not null)
                 products = products.Where(p => Equals(p.Size, query.Size));
             if (query.Type is not null)

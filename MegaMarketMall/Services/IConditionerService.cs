@@ -11,7 +11,7 @@ namespace MegaMarketMall.Services
 {
     public interface IConditionerService
     {
-        Task<IQueryable<Conditioner>> FilterAsync(IQueryable<Conditioner> conditioners, IConditionerGet query);
+        IQueryable<Conditioner> Filter(IQueryable<Conditioner> conditioners, IConditionerGet query);
         Task CreateAsync(ConditionerPost data);
         Task<Conditioner> GetByIdAsync(int id);
         Task UpdateAsync(int id, ConditionerPut data);

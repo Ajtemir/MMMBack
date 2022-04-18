@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using MegaMarketMall.Dtos;
 using MegaMarketMall.Dtos.Get;
 using MegaMarketMall.Dtos.Post;
+using MegaMarketMall.Dtos.Response;
+using MegaMarketMall.Dtos.Response.QueryResponse;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.WashingMachines;
 using MegaMarketMall.Repository;
 using MegaMarketMall.Services;
@@ -26,7 +28,7 @@ namespace MegaMarketMall.Controllers
         public async Task<ActionResult<QueryResponse<WashingMachine>>> Get([FromQuery] WashingMachineGet query)
         {
             var products = _repository.Filter(query);
-            var filtered = await _washingMachine.FilterAsync(products, query);
+            var filtered =  _washingMachine.Filter(products, query);
             var result = await _repository.PaginateAsync(filtered, query);
             return Ok(result);
         }

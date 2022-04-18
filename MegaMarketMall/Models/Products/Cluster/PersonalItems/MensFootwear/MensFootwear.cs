@@ -4,7 +4,7 @@ using MegaMarketMall.Models.ProductBrands.MensFootwearBrands;
 namespace MegaMarketMall.Models.Products.Cluster.PersonalItems.MensFootwear
 {
     [Table("MensFootwear")]
-    public class MensFootwear : PersonalItem
+    public class MensFootwear : Product
     {
         [Column("Size", TypeName = "integer[]")]
         public int[] Size { get; set; }

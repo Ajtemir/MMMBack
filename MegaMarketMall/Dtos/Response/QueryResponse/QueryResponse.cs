@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MegaMarketMall.Data.Interfaces.Product;
 
-namespace MegaMarketMall.Dtos
+namespace MegaMarketMall.Dtos.Response.QueryResponse
 {
     public class QueryResponse<TEntity> where TEntity:class,IEntity
     {

@@ -1,13 +1,21 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MegaMarketMall.Context;
+using MegaMarketMall.Data.Enums.SewingMachine;
 using MegaMarketMall.Dtos.Get;
+using MegaMarketMall.Models.Products;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments.Conditioner;
+using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines;
+using MegaMarketMall.Models.Products.Cluster.PersonalItems.Accessories.WristWatches;
+using MegaMarketMall.Models.Users;
+using MegaMarketMall.Services.CategoryService;
 using MegaMarketMall.TestData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MegaMarketMall.Controllers
 {
@@ -15,11 +23,13 @@ namespace MegaMarketMall.Controllers
     {
         private readonly ApplicationContext _context;
         private readonly IMapper _mapper;
+        private readonly ICategoryService _category;
 
-        public OtherController(ApplicationContext context, IMapper mapper)
+        public OtherController(ApplicationContext context, IMapper mapper, ICategoryService category)
         {
             _context = context;
             _mapper = mapper;
+            _category = category;
         }
 
         [HttpGet("[action]")]
@@ -94,5 +104,42 @@ namespace MegaMarketMall.Controllers
             Console.WriteLine(obj.Id);
             return Ok(obj);
         }
+        
+        [HttpPost("[action]")]
+        public async Task<ActionResult<MapObjectTo>> CreateShopper(ConditionerGet query)
+        {
+            
+            // var queryable = _context.Products.Where(product => ((SewingMachine)product).Id==4 | (product as Conditioner).BrandId==1).Select(product => new
+            // {
+            //     ыапрва=product.Id,
+            //     sfg=new
+            //     {
+            //         dsg=product.Favorites,
+            //         gsfgdf=product.Views
+            //     }
+            // });
+            
+            
+            
+            // var queryable = _context.Products.Where(p => (p as Conditioner).BrandId==1 || (p as WristWatch).BrandId ==1).Select(p=>new
+            // {
+            //     id= p.Id
+            //     
+            // }).ToList();
+
+            var queryable = await _category.GetLowestSubCategoriesIdAsync(2);
+            queryable.ForEach(id=>Console.WriteLine(id));
+            
+            
+            return Ok(queryable);
+        }
+        
+        
+        [HttpGet("[action]")]
+        public ActionResult<ProductTest> ProductGetAddition()
+        {
+            return Ok();
+        }
+
     }
 }

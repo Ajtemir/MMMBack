@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MegaMarketMall.Context;
 using MegaMarketMall.Models.Products;
 using MegaMarketMall.Models.Users;
+using MegaMarketMall.Services.ProductService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 

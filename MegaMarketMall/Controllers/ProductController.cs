@@ -7,6 +7,7 @@ using MegaMarketMall.Dtos.Local.Product;
 using MegaMarketMall.Models.Products;
 using MegaMarketMall.Repository;
 using MegaMarketMall.Services;
+using MegaMarketMall.Services.ProductService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,11 @@ namespace MegaMarketMall.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IRepository<Product> _repository;
         private readonly IProductPhotoService _photo;
         
-        public ProductController(IProductService productService, IRepository<Product> repository, IProductPhotoService photo)
+        public ProductController(IProductService productService, IProductPhotoService photo)
         {
             _productService = productService;
-            _repository = repository;
             _photo = photo;
         }
 
@@ -31,7 +30,7 @@ namespace MegaMarketMall.Controllers
         public async Task<ActionResult<List<Product>>> GetProducts([FromQuery]ProductGet query)
         {
             var products = _productService.Filter(query);
-            var response = await _productService.Paginate(products, query.Page);
+            var response = await _productService.PaginateAsync(products, query);
             return Ok(response);
         }
         
@@ -43,6 +42,8 @@ namespace MegaMarketMall.Controllers
                 return BadRequest();
             return Ok(product);
         }
+        
+        
 
         [Authorize(Roles = "Seller")]
         [TypeFilter(typeof(ProductSellerAttribute))]
@@ -82,5 +83,20 @@ namespace MegaMarketMall.Controllers
             return BadRequest();
 
         }
+        
+        //TODO TEst
+        // [HttpGet("{id:int}")]
+        // public async Task<ActionResult<Product>> GetProductsAddition(int id)
+        // {
+        //     var product = await _productService.GetByIdAsync(id);
+        //     if (product is null)
+        //         return BadRequest();
+        //     return Ok(product);
+        // }
+        
+        
+        
+        
+        
     }
 }

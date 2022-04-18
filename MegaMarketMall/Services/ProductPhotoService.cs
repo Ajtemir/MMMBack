@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MegaMarketMall.Context;
 using MegaMarketMall.Dtos.Local.Product;
+using MegaMarketMall.Models.ProductPhotos;
 using MegaMarketMall.Models.Products;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,11 +46,12 @@ namespace MegaMarketMall.Services
                 await file.CopyToAsync(fileStream);
                 await fileStream.FlushAsync();
                 string path = _request.HttpContext?.Request.Scheme + "://" + _request.HttpContext?.Request.Host + directory + fileName;
-                ProductPhoto photo = new ProductPhoto()
+                ProductPhoto photo = new ProductPhoto
                 {
                     Name = fileName,
                     Path = path,
-                    ProductId = productId
+                    ProductId = productId,
+
                 };
                 photos.Add(photo);
             }

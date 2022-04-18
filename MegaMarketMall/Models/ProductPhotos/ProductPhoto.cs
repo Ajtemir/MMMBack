@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using MegaMarketMall.Models.Products;
 using Newtonsoft.Json;
 
-namespace MegaMarketMall.Models.Products
+namespace MegaMarketMall.Models.ProductPhotos
 {
     public class ProductPhoto
     {

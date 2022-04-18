@@ -7,7 +7,7 @@ using MegaMarketMall.Models.Brands;
 namespace MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.WashingMachines
 {
     [Table("WashingMachine")]
-    public class WashingMachine : HouseHoldAppliance, IWashingMachine, IBrandFk
+    public class WashingMachine : Product, IWashingMachine, IBrandFk
     {
         public int? BrandId { get; set; } = null;
         [ForeignKey("BrandId")]

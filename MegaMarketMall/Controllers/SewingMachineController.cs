@@ -46,7 +46,7 @@ namespace MegaMarketMall.Controllers
         public async Task<ActionResult<List<SewingMachine>>> Get([FromQuery]SewingMachineGet query)
         {
             var products = _repository.Filter(query);
-            var filtered = await _sewingMachineService.FilterAsync(products, query);
+            var filtered = _sewingMachineService.Filter(products, query);
             var result = await _repository.PaginateAsync(filtered, query);
             return Ok(result);
         }

@@ -20,12 +20,12 @@ namespace MegaMarketMall.Models.Users
         public string Patronymic { get; set; } = null;
         
         [JsonIgnore] public bool IsActive { get; set; } = true; // Todo подумать об активности или через почту
-        [JsonIgnore] public string Role { get; set; } = "User";
+        [JsonIgnore] public virtual string Role { get; set; } = "User";
 
         public bool IsDeleted { get; set; } = false;
 
         public string Avatar { get; set; } = null;
-        public Seller Seller { get; set; }
+        // public Seller Seller { get; set; }
 
         // public List<Seller> Sellers { get; set; } = null;
         // public string Password { internal get; set; } // TODO => without hashing

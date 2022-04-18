@@ -5,20 +5,22 @@ using MegaMarketMall.Models.Products;
 
 namespace MegaMarketMall.Models.Users
 {
-    public class Seller
+    [Table("Seller")]
+    public class Seller : User
     {
-        public int Id { get; set; }
         public string Nickname { get; set; } = null;
         public string Description { get; set; } = null;
         public int? AdAccount { get; set; } = null;
-        public int UserId { get; set; }
-        public string Avatar { get; set; } = null;
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        public override string Role { get; set; } = "Seller";
         public List<Product> Products { get; set; } = new();
-        
+        // public string Location { get; set; } = null;
+
+
         //Todo подумать об проходах и контейерах
-        public string Location { get; set; } = null; 
+        // public int UserId { get; set; }
+        // public string Avatar { get; set; } = null;
+        // [ForeignKey("UserId")]
+        // public User User { get; set; }
         // public string Section { get; set; }
         // public string Path { get; set; }
         // public string Number { get; set; }
