@@ -58,27 +58,39 @@ namespace MegaMarketMall.Controllers
             return Ok(product);
         }
 
-        
 
-        [HttpPatch("{id:int}")]
-        public async Task<IActionResult> Patch(int id, [FromBody]JsonPatchDocument<SewingMachine> patch)
-        {   
-            var product = await _context.SewingMachines.FirstOrDefaultAsync(p => p.Id == id);
-            var allowedProperties = new []{"SellerId", "Price"};
-            if (!patch.TryApplyToWithRestrictions(product,out var error,allowedProperties))
-                return BadRequest(error);
-            patch.ApplyToWithRestrictions(product,allowedProperties);
-            _context.Update(product);
-            try
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var data = await _context.SewingMachines.Include(p => p.Brand).Where(p => p.Id == id).Select(p => new
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-            return Ok(patch);
+                Бренд = p.Brand.Name,
+                Тип_петли = p.LoopType,
+                Тип_машинки = p.TypeOfSewingMachine
+            }).FirstOrDefaultAsync();
+            if (data is null)
+                return BadRequest();
+            return Ok(data);
         }
+        // [HttpPatch("{id:int}")]
+        // public async Task<IActionResult> Patch(int id, [FromBody]JsonPatchDocument<SewingMachine> patch)
+        // {   
+        //     var product = await _context.SewingMachines.FirstOrDefaultAsync(p => p.Id == id);
+        //     var allowedProperties = new []{"SellerId", "Price"};
+        //     if (!patch.TryApplyToWithRestrictions(product,out var error,allowedProperties))
+        //         return BadRequest(error);
+        //     patch.ApplyToWithRestrictions(product,allowedProperties);
+        //     _context.Update(product);
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(e);
+        //     }
+        //     return Ok(patch);
+        // }
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult<SewingMachine>> Put(int id, SewingMachinePut put)

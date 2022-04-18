@@ -138,7 +138,8 @@ namespace MegaMarketMall.Controllers
         [HttpGet("[action]")]
         public ActionResult<ProductTest> ProductGetAddition()
         {
-            return Ok();
+            var product = _context.Products.FindAsync(1).Result;
+            return Ok(product);
         }
 
     }

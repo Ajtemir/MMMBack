@@ -1,4 +1,5 @@
 using MegaMarketMall.Data.Constants;
+using MegaMarketMall.Data.Enums.SewingMachine;
 using MegaMarketMall.Data.Methods;
 using MegaMarketMall.Models.Brands;
 using MegaMarketMall.Models.Categories;
@@ -156,7 +157,9 @@ namespace MegaMarketMall.Context
                 {
                     Id = 4,
                     SellerId = 5,
-                    CategoryId = 4
+                    CategoryId = 4,
+                    LoopType = LoopType.Automatic,
+                    BrandId = 4
                 }
             );
 

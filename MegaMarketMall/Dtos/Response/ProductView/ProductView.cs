@@ -6,7 +6,7 @@ namespace MegaMarketMall.Dtos.Response.ProductView
     {
         public int  Id { get; set; }
         public string Description { get; set; }
-        public uint? Price { get; set; } = null;
+        public int? Price { get; set; } = null;
         public int Views { get; set; } = default;
         public int Favorites { get; set; } = default;
         public List<string> Photos { get; set; }

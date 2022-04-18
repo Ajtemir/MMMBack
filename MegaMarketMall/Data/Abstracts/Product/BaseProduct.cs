@@ -11,7 +11,7 @@ namespace MegaMarketMall.Data.Abstracts.Product
     public abstract class BaseProduct : IEntity, ISellerId, ICategoryId
     {
         public string Description { get; set; } = null;
-        public uint? Price { get; set; } = null;
+        public int? Price { get; set; } = null;
         public bool? IsDelivered { get; set; } = null;
         public List<ProductPhoto> Photos { get; set; }
         public int SellerId { get; set; }

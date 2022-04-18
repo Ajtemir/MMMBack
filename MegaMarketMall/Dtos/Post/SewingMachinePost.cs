@@ -10,7 +10,7 @@ namespace MegaMarketMall.Dtos.Post
 {
     public class SewingMachinePost:IProductCore, ISewingMachine, IProductPhotos, ICategoryId, IProductBrandPost
     {
-        public uint? Price { get; set; }
+        public int? Price { get; set; }
         public string Description { get; set; }
         public bool? IsDelivered { get; set; }
         [RequiredEnum(ErrorMessage = "Error no such option")]

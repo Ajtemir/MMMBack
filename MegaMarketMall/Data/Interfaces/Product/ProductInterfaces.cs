@@ -39,7 +39,7 @@ namespace MegaMarketMall.Data.Interfaces.Product
 
     public interface IPrice
     {
-        uint? Price { get; set; }
+        int? Price { get; set; }
     }
 
     public interface IDescription
