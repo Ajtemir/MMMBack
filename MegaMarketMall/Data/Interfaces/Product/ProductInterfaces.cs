@@ -21,6 +21,9 @@ namespace MegaMarketMall.Data.Interfaces.Product
     {
         public int CategoryId { get; set; }
     }
+    
+    
+    
 
     public interface ITimeStamp
     {

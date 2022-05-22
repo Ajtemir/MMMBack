@@ -141,6 +141,5 @@ namespace MegaMarketMall.Controllers
             var product = _context.Products.FindAsync(1).Result;
             return Ok(product);
         }
-
     }
 }

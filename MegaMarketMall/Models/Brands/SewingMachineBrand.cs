@@ -7,6 +7,6 @@ namespace MegaMarketMall.Models.Brands
     public class SewingMachineBrand : Brand
     {
         [JsonIgnore]
-        public List<SewingMachine> Products { get; set; }
+        public virtual List<SewingMachine> Products { get; set; }
     }
 }

@@ -1,12 +1,16 @@
+using System;
 using MegaMarketMall.Data.Constants;
+using MegaMarketMall.Data.Enums.Conditioner;
 using MegaMarketMall.Data.Enums.SewingMachine;
 using MegaMarketMall.Data.Methods;
 using MegaMarketMall.Models.Brands;
 using MegaMarketMall.Models.Categories;
+using MegaMarketMall.Models.ProductPhotos;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments.Conditioner;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines;
 using MegaMarketMall.Models.Products.Cluster.PersonalItems.Accessories.WristWatches;
 using MegaMarketMall.Models.Users;
+using MegaMarketMall.TestData;
 using Microsoft.EntityFrameworkCore;
 
 namespace MegaMarketMall.Context
@@ -19,11 +23,16 @@ namespace MegaMarketMall.Context
 
             modelBuilder.Entity<Category>().HasData(
                 // 0 level
-                new Category() {Id = CategoryConstants.All, Name = "all", ParentCategoryId = null},
+                new Category{Id = CategoryConstants.All, Name = "all", ParentCategoryId = null,RussianName = "Все"},
 
                 //1 level
-                new Category() {Id = CategoryConstants.Electronics, Name = "Electronics", ParentCategoryId = CategoryConstants.All},
-                new Category() {Id = CategoryConstants.PersonalItems, Name = "PersonalItems", ParentCategoryId = CategoryConstants.All},
+                new Category{
+                    Id = CategoryConstants.Electronics,
+                    Name = "Electronics",
+                    ParentCategoryId = CategoryConstants.All,
+                    RussianName = "Электроника"
+                },
+                new Category() {Id = CategoryConstants.PersonalItems, Name = "PersonalItems", ParentCategoryId = CategoryConstants.All,RussianName = "Личные вещи"},
 
                 // 2 level 
                 new Category() {Id = CategoryConstants.HouseHoldAppliances, Name = "HouseHoldAppliances", ParentCategoryId = CategoryConstants.Electronics},
@@ -31,10 +40,13 @@ namespace MegaMarketMall.Context
                 new Category() {Id = 6, Name = "MensFootwear", ParentCategoryId = CategoryConstants.PersonalItems},
 
                 // 3 level
-                new Category() {Id = 7, Name = "Climatic Equipments", ParentCategoryId = 4},
+                new Category() {Id = CategoryConstants.ClimaticEquipments, Name = "Climatic Equipments", ParentCategoryId = CategoryConstants.HouseHoldAppliances},
                 new Category()
-                    {Id = 8, Name = "OthersHouseHoldAppliance", ParentCategoryId = 4}, // does not have subcategory
-                new Category() {Id = 9, Name = "WashingMachine", ParentCategoryId = 4}, // does not have subcategory
+                {
+                    Id = 8, Name = "OthersHouseHoldAppliance", ParentCategoryId = CategoryConstants.HouseHoldAppliances,RussianName = 
+                        ""
+                }, // does not have subcategory
+                new Category() {Id = 9, Name = "WashingMachine", ParentCategoryId = CategoryConstants.HouseHoldAppliances}, // does not have subcategory
                 new Category() {Id = 10, Name = "Jewelry", ParentCategoryId = 5},
                 new Category() {Id = 11, Name = "WristWatches", ParentCategoryId = 5}, // does not have subcategory
                 new Category() {Id = 17, Name = "Boots", ParentCategoryId = 6}, // does not have subcategory
@@ -52,23 +64,31 @@ namespace MegaMarketMall.Context
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = 1, Email = "User@gmail.com", Firstname = "User", Lastname = "Userov", Role = "User",
+                    Id = 1, Email = "User@gmail.com", Firstname = "User", Lastname = "Userov", Role = UserRoles.User,
                     PasswordHash = passwordHash, PasswordSalt = passwordSalt
                 },
+                
                 new User
                 {
-                    Id = 3, Email = "Admin@gmail.com", Firstname = "Admin", Lastname = "Adminov", Role = "Admin",
-                    PasswordHash = passwordHash, PasswordSalt = passwordSalt
-                },
-                new User
-                {
-                    Id = 4, Email = "Owner@gmail.com", Firstname = "Owner", Lastname = "Ownerov", Role = "Owner",
+                    Id = 4, Email = "Owner@gmail.com", Firstname = "Owner", Lastname = "Ownerov", Role = UserRoles.Owner,
                     PasswordHash = passwordHash, PasswordSalt = passwordSalt
                 }
             );
 
-            modelBuilder.Entity<BazaarSeller>().HasData(
-                new BazaarSeller
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin
+                {
+                    Id = 3, 
+                    Email = "Admin@gmail.com", 
+                    Firstname = "Admin", 
+                    Lastname = "Adminov", 
+                    PasswordHash = passwordHash, 
+                    PasswordSalt = passwordSalt
+                }
+            );
+
+            modelBuilder.Entity<Seller>().HasData(
+                new Seller()
                 {
                     Id = 2,
                     Username = "Seller",
@@ -79,19 +99,24 @@ namespace MegaMarketMall.Context
                     Patronymic = null,
                     IsActive = false,
                     IsDeleted = false,
-                    Avatar = null,
-                    Role = "Seller",
-                    Nickname = null,
+                    Avatar = "https://localhost:5001/UploadedAvatar/51d61b2ed0f345dfb236663d9c9df35d.png",
+                    Role = UserRoles.Seller,
                     Description = null,
                     AdAccount = null,
                     Products = null,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt
                 },
-                new BazaarSeller()
+                new Seller()
                 {
-                    Id = 5, Email = "Seller1@gmail.com", Firstname = "Seller1", Lastname = "Sellerov1", Role = "Seller",
-                    PasswordHash = passwordHash, PasswordSalt = passwordSalt,Username = "Seller",
+                    Id = 5,
+                    Email = "Seller1@gmail.com",
+                    Firstname = "Seller1",
+                    Lastname = "Sellerov1",
+                    Role = UserRoles.Seller,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    Username = "Seller",
                     Phone = "996706226452",
                 }
                 
@@ -107,6 +132,7 @@ namespace MegaMarketMall.Context
                 {
                     Id = 2,
                     Name = "Panasonic",
+
                 }
             );
 
@@ -125,6 +151,7 @@ namespace MegaMarketMall.Context
                     Name = "Toyota"
                 }
             );
+            
 
             modelBuilder.Entity<Conditioner>().HasData(
                 new Conditioner
@@ -132,14 +159,18 @@ namespace MegaMarketMall.Context
                     Id = 1,
                     SellerId = 2,
                     CategoryId = 12,
-                    BrandId = 1
+                    BrandId = 1,
+                    Type = TypeConditioner.InnerBlock
+                    
                 },
                 new Conditioner
                 {
                     Id = 2,
                     SellerId = 5,
                     CategoryId = 12,
-                    BrandId = 1
+                    BrandId = 1,
+                    Type = TypeConditioner.InnerBlock
+
                 }
             );
             modelBuilder.Entity<WristWatch>().HasData(
@@ -162,6 +193,52 @@ namespace MegaMarketMall.Context
                     BrandId = 4
                 }
             );
+            
+            modelBuilder.Entity<ProductPhoto>().HasData(
+                new ProductPhoto
+                {
+                    Name = "1541c61918574865b4c8447432440be1.png",
+                    UrlPath = "https://localhost:5001/UploadedProductsPhotos/1541c61918574865b4c8447432440be1.png",
+                    TimeStamp = DateTime.Now,
+                    Id = 1,
+                    ProductId = 1,
+
+                }
+            );
+            // TODO test
+            modelBuilder.Entity<Company>().HasData(
+                new Company
+                {
+                    Id = 1,
+                    Name = "Samsung",
+                });
+            
+            modelBuilder.Entity<School>().HasData(
+                new School()
+                {
+                    Id = 2,
+                    Name = "Samsung",
+                    Number = 4
+                });
+            
+            modelBuilder.Entity<TestEmployee>().HasData(
+                new TestEmployee
+                {
+                    Id = 1,
+                    Name = "Genadiy",
+                    Lastname = "Asmanov",
+                    ExtraId = 1,
+                },
+                new TestEmployee
+                {
+                    Id = 2,
+                    Name = "Arsen",
+                    Lastname = "Masabirov",
+                    ExtraId = 2,
+                }
+                
+                );
+            
 
             // TODO => think about above
             // TODO => think about email check lowercase

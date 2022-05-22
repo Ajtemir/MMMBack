@@ -5,7 +5,6 @@ namespace MegaMarketMall.Models.Brands
 {
     public class WristWatchBrand : Brand
     {
-        public List<WristWatch> Products { get; set; }
-
+        public virtual List<WristWatch> Products { get; set; }
     }
 }

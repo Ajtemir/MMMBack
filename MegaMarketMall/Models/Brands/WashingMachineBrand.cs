@@ -5,6 +5,6 @@ namespace MegaMarketMall.Models.Brands
 {
     public class WashingMachineBrand : Brand
     {
-        public List<WashingMachine> Products { get; set; }
+        public virtual List<WashingMachine> Products { get; set; }
     }
 }

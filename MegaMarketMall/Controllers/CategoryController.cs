@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MegaMarketMall.Context;
 using MegaMarketMall.Data.Extensions;
+using MegaMarketMall.Dtos.Response.CategoryView;
 using MegaMarketMall.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,23 @@ namespace MegaMarketMall.Controllers
             await _context.Categories.Where(c => c.ParentCategoryId == category.Id).LoadAsync();
             return Ok(category.SubCategories);
         }
+        
+        [HttpGet("[action]")]
+        public async Task<IActionResult> AllSubCategoriesById([FromQuery] int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category is null)
+                return BadRequest("Wrong Category Name");
+            // await _context.Categories.Where(c => c.ParentCategoryId == category.Id).LoadAsync();
+            var response = category.SubCategories.Select(c => new CategoryView
+            {
+                Id = c.Id,
+                Name = c.RussianName,
+                IsParent = c.IsParent,
+            }).ToList();
+            return Ok(response);
+        }
+        
 
         [HttpPost("[action]")]
         public async Task<IActionResult> AddCategory([FromQuery] string name, [FromQuery] string parentName)

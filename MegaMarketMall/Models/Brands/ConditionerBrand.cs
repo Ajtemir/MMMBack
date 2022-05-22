@@ -6,6 +6,6 @@ namespace MegaMarketMall.Models.Brands
 {
     public class ConditionerBrand : Brand
     {
-        public List<Conditioner> Products { get; set; }
+        public virtual List<Conditioner> Products { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using MegaMarketMall.Models;
 using MegaMarketMall.Models.Tokens;
 using MegaMarketMall.Models.Users;
 using MegaMarketMall.Services;
+using MegaMarketMall.Services.AvatarService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,13 +27,15 @@ namespace MegaMarketMall.Controllers
         private readonly ApplicationContext _context;
         private readonly IWebHostEnvironment _environment;
         private readonly IJwtService _jwtService;
+        private readonly IAvatarService _avatar;
 
 
-        public UserController(ApplicationContext context, IWebHostEnvironment environment, IJwtService jwtService)
+        public UserController(ApplicationContext context, IWebHostEnvironment environment, IJwtService jwtService, IAvatarService avatar)
         {
             _context = context;
             _environment = environment;
             _jwtService = jwtService;
+            _avatar = avatar;
         }
 
         [HttpPost("[action]")]
@@ -41,7 +44,8 @@ namespace MegaMarketMall.Controllers
             if (await _context.Users.AnyAsync(u => u.Email.Equals(request.Email)))
                 return BadRequest("Email address is already consist");
             if (request.Avatar is not null)
-                request.AvatarPath = await UserMethods.CreateFilePath(request.Avatar,_environment,Request);
+                // request.AvatarPath = await UserMethods.CreateFilePath(request.Avatar,_environment,Request);
+                request.AvatarPath = await _avatar.CreateAvatarAsync(request);
             var user = UserMethods.CreateUser(request);
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();

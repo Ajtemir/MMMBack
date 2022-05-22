@@ -22,5 +22,10 @@ namespace MegaMarketMall.Context
         public DbSet<BrandTest> BrandTests { get; set; }
         public DbSet<WMBrand> WmBrands { get; set; }
         public DbSet<SmBrand> SmBrands { get; set; }
+        public DbSet<TestPerson> TestPersons { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<TestEmployee> TestEmployees { get; set; }
+        public DbSet<TestTeacher> TestTeachers { get; set; }
+        public DbSet<School> Schools { get; set; }
     }
 }

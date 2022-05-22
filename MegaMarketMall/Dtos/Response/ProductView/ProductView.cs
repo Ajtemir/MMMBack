@@ -12,5 +12,9 @@ namespace MegaMarketMall.Dtos.Response.ProductView
         public List<string> Photos { get; set; }
         public CategoryView Category { get; set; }
         public SellerView Seller { get; set; }
+        
+        public string TimeStamp { get; set; }
+        public string Updated { get; set; }
+        public string Deliver { get; set; }
     }
 }

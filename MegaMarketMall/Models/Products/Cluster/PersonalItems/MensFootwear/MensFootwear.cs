@@ -12,7 +12,7 @@ namespace MegaMarketMall.Models.Products.Cluster.PersonalItems.MensFootwear
         public string Condition { get; set; } = null;
         public int BrandId { get; set; }
         [ForeignKey("BrandId")]
-        public MensFootwearBrand Brand { get; set; } = null;
+        public virtual MensFootwearBrand Brand { get; set; } = null;
         public string BrandName => Brand.Name = Brand.Name;
     }
 }

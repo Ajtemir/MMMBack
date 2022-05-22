@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -9,12 +10,17 @@ using AutoMapper;
 using MegaMarketMall.Context;
 using MegaMarketMall.Mapper;
 using MegaMarketMall.Models;
-using MegaMarketMall.Repository;
+using MegaMarketMall.Repositories;
+using MegaMarketMall.Repositories.AdminRepository;
 using MegaMarketMall.Services;
+using MegaMarketMall.Services.AvatarService;
+using MegaMarketMall.Services.BrandService;
 using MegaMarketMall.Services.CategoryService;
 using MegaMarketMall.Services.Cluster.SewingMachineService;
+using MegaMarketMall.Services.ColorService;
 using MegaMarketMall.Services.ProductService;
 using MegaMarketMall.TestData;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,7 +45,7 @@ namespace MegaMarketMall
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -59,17 +65,28 @@ namespace MegaMarketMall
             services.AddScoped<IConditionerService, ConditionerService>();
             services.AddScoped<ISewingMachineService, SewingMachineService>();
             services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+            services.AddScoped<IAdminRepository,AdminRepository>();
             services.AddScoped<IProductPhotoService, ProductPhotoService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            //TODO Test
+            services.AddScoped<IAvatarService, AvatarService>();
+            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IColorService, ColorService>();
+            //TODO Test delete
             services.AddScoped<ITestService, TestService>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
-            services.AddControllers()
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseNpgsql(connection);
+                options.UseLazyLoadingProxies();
+            });
+            // services.AddControllers() //TODO 
+            // services.AddRazorPages(); 
+            services.AddMvc(routes=>routes.EnableEndpointRouting=false)
                 .AddNewtonsoftJson(x =>
                 {
                     x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     x.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    // x.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                 });
                     
             
@@ -130,11 +147,27 @@ namespace MegaMarketMall
                     var ipAddress = context.Request.HttpContext.Connection.RemoteIpAddress?.ToString();
                     var jwtService = context.Request.HttpContext.RequestServices.GetService<IJwtService>();
                     var jwtToken = context.SecurityToken as JwtSecurityToken;
-                    if (!await jwtService?.IsTokenValid(jwtToken.RawData, ipAddress))
+                    if (!await jwtService?.IsTokenValid(jwtToken?.RawData, ipAddress)!)
                     {
                         context.Fail("Invalid Token Details");
                     }
                 };
+            });
+            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/admin/signin");
+                });
+
+            services.AddAuthorization(opts => {
+                opts.AddPolicy("OnlyForAdmin", policy => {
+                    policy.RequireClaim(ClaimTypes.Role, "Admin","Owner"); // Owner
+                });
+                opts.AddPolicy("OnlyForOwner", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Owner");
+                });
             });
             services.AddTransient<IJwtService, JwtService>();
         }
@@ -158,7 +191,10 @@ namespace MegaMarketMall
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

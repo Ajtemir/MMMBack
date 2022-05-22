@@ -7,7 +7,6 @@ using MegaMarketMall.Dtos.Post;
 using MegaMarketMall.Dtos.Put.Cluster;
 using MegaMarketMall.Models.Brands;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines;
-using MegaMarketMall.Repository;
 using Microsoft.EntityFrameworkCore;
 using SewingMachineBrand = MegaMarketMall.Models.ProductBrands.SewingMachineBrands.SewingMachineBrand;
 
@@ -43,7 +42,7 @@ namespace MegaMarketMall.Services.Cluster.SewingMachineService
 
         public async Task<SewingMachine> CreateAsync(SewingMachinePost data)
         {
-            var user = await _user.GetUserAsync();
+            var user = await _user.GetCurrentUserAsync();
             var product = _mapper.Map<SewingMachinePost, SewingMachine>(data);
             await _context.SewingMachines.AddAsync(product);
             await _context.SaveChangesAsync();

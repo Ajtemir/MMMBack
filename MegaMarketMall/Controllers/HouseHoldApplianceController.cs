@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
 using MegaMarketMall.Data.Constants;
 using MegaMarketMall.Dtos.Get;
-using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances;
-using MegaMarketMall.Repository;
 using MegaMarketMall.Services.ProductService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +16,7 @@ namespace MegaMarketMall.Controllers
         {
             _product = product;
         }
-        
-        
+
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]ProductGet query)
         {

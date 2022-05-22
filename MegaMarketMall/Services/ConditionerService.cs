@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,12 +7,8 @@ using MegaMarketMall.Data.Extensions.Cluster;
 using MegaMarketMall.Data.Interfaces.Get;
 using MegaMarketMall.Dtos.Post;
 using MegaMarketMall.Dtos.Put;
-using MegaMarketMall.Models.Brands;
-using MegaMarketMall.Models.Products;
-using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments.Conditioner;
-using MegaMarketMall.Repository;
-using Microsoft.AspNetCore.Mvc;
+using MegaMarketMall.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace MegaMarketMall.Services
@@ -44,13 +39,13 @@ namespace MegaMarketMall.Services
                 // var brand = await GetBrandByNameAsync(query.Brand);
                 conditioners=conditioners.Where(b => b.Id == query.BrandId);
             }
-            if (!string.IsNullOrEmpty(query.Type))
+            if (query.Type != null)
                 conditioners = conditioners.Where(c=>c.Type==query.Type);
-            if (!string.IsNullOrEmpty(query.RecommendedArea))
+            if (query.RecommendedArea!=null)
                 conditioners = conditioners.Where(c => c.RecommendedArea == query.RecommendedArea);
-            if (string.IsNullOrEmpty(query.TypeCompressor))
+            if (query.TypeCompressor!=null)
                 conditioners = conditioners.Where(c => c.TypeCompressor == query.TypeCompressor);
-            if (string.IsNullOrEmpty(query.MountingTheIndoorUnit))
+            if (query.MountingTheIndoorUnit != null)
                 conditioners = conditioners.Where(c => c.MountingTheIndoorUnit == query.MountingTheIndoorUnit);
             conditioners = conditioners.Include(c => c.Brand);
             return conditioners;
@@ -58,9 +53,11 @@ namespace MegaMarketMall.Services
 
         public async Task CreateAsync(ConditionerPost data)
         {
-            var user = await _user.GetUserAsync();
+            var user = await _user.GetCurrentUserAsync();
             var conditioner = _mapper.Map<ConditionerPost, Conditioner>(data);
-            conditioner.SellerId = user.Id;
+            //TODO recoment
+            // conditioner.SellerId = user.Id;
+            conditioner.SellerId = 2;
             await _context.Conditioners.AddAsync(conditioner);
             await _context.SaveChangesAsync();
             await _photos.CreatePhotosAsync(data.Files, conditioner.Id);

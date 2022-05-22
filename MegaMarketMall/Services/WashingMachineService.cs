@@ -40,7 +40,7 @@ namespace MegaMarketMall.Services
 
         public async Task CreateAsync(WashingMachinePost data)
         {
-            var user = await _user.GetUserAsync();
+            var user = await _user.GetCurrentUserAsync();
             var product = _mapper.Map<WashingMachinePost, WashingMachine>(data);
             product.SellerId = user.Id;
             await _context.WashingMachines.AddAsync(product);

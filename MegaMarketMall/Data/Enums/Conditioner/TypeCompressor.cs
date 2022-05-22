@@ -5,7 +5,7 @@ using Newtonsoft.Json.Converters;
 namespace MegaMarketMall.Data.Enums.Conditioner
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum CompressorType
+    public enum TypeCompressor
     {
         [EnumMember(Value = "Инверторный")]
         Inverter=1,

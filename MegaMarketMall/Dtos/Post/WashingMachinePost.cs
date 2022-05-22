@@ -13,7 +13,7 @@ namespace MegaMarketMall.Dtos.Post
         public int? Price { get; set; }
         public string Description { get; set; }
         public bool? IsDelivered { get; set; }
-        public Type? Type { get; set; }
+        public TypeWashingMachine? Type { get; set; }
         [RequiredEnum(ErrorMessage = "Error no such option")]
         public DownloadType? DownloadType { get; set; }
         public Size? Size { get; set; }

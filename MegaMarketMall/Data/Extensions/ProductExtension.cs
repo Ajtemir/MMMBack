@@ -1,6 +1,9 @@
+using System.Linq;
 using MegaMarketMall.Data.Abstracts;
 using MegaMarketMall.Data.Interfaces.Product;
+using MegaMarketMall.Dtos.Response.ProductView;
 using MegaMarketMall.Models.Brands;
+using MegaMarketMall.Models.Products;
 
 namespace MegaMarketMall.Data.Extensions
 {
@@ -12,10 +15,31 @@ namespace MegaMarketMall.Data.Extensions
             product.Price = putData.Price;
             product.IsDelivered = putData.IsDelivered;
         }
-
-        public static void MapBrand<T>(this IBrandFk brand, int? id) where T:Brand
+        
+        public static ProductView MapToProductView(this Product product)
         {
-            brand.BrandId = id;
+            return new ProductView
+            {
+                Id = product.Id,
+                Description = product.Description,
+                Price = product.Price,
+                Views = product.Views,
+                Favorites = product.Favorites,
+                Photos = product.Photos.Select(photo => photo.UrlPath).ToList(),
+                Category = new CategoryView
+                {
+                    Id = product.CategoryId,
+                    Name = product.Category.Name
+                },
+                Seller = new SellerView
+                {
+                    Username = product.Seller.Username,
+                    Phone = product.Seller.Phone,
+                    Avatar = product.Seller.Avatar
+                }
+            };
         }
+
+        
     }
 }

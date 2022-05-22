@@ -8,9 +8,7 @@ namespace MegaMarketMall.Context
     {
         public DbSet<User> Users { get; set; }   
         public DbSet<Seller> Sellers { get; set; }   
-        public DbSet<OnlineSeller> OnlineSellers { get; set; }   
-        public DbSet<ShopSeller> ShopSellers { get; set; }   
-        public DbSet<BazaarSeller> BazaarSellers { get; set; }   
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 
         

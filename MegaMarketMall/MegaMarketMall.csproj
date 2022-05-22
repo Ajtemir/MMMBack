@@ -9,6 +9,8 @@
         <PackageReference Include="JsonPatch.Restrict" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,8 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Areas\Admin\Pages" />
       <Folder Include="Data\Interfaces\Patch" />
-      <Folder Include="wwwroot" />
     </ItemGroup>
 
     <ItemGroup>

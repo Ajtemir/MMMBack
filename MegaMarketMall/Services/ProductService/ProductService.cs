@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using MegaMarketMall.Context;
 using MegaMarketMall.Data.Abstracts;
 using MegaMarketMall.Data.Constants;
+using MegaMarketMall.Data.Extensions;
+using MegaMarketMall.Data.Extensions.Cluster;
 using MegaMarketMall.Data.Interfaces.Get;
+using MegaMarketMall.Data.Interfaces.Product;
 using MegaMarketMall.Data.Methods;
 using MegaMarketMall.Dtos;
 using MegaMarketMall.Dtos.Get;
@@ -14,14 +17,14 @@ using MegaMarketMall.Dtos.Response.ProductView;
 using MegaMarketMall.Dtos.Response.QueryResponse;
 using MegaMarketMall.Models.Products;
 using MegaMarketMall.Models.Users;
-using MegaMarketMall.Repository;
+using MegaMarketMall.Repositories;
 using MegaMarketMall.Services.CategoryService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MegaMarketMall.Services.ProductService
 {
-    public class ProductService : IProductService
+    public partial class ProductService : IProductService
     {
         private readonly ApplicationContext _context;
         private readonly ICategoryService _category;
@@ -63,14 +66,7 @@ namespace MegaMarketMall.Services.ProductService
                 products = products.Where(p => p.Price <= query.ToPrice);
             if (!string.IsNullOrEmpty(query.Text))
                 products = products.Where(p => p.Description.Contains(query.Text));
-            // Deliver
-            if (query.Deliver is null)
-                products = products.Where(p => p.IsDelivered == null);
-            else if (query.Deliver.Value)
-                products = products.Where(p => p.IsDelivered == true);
-            else 
-                products = products.Where(p => p.IsDelivered == false);
-            
+            products = products.Where(p => p.IsDelivered == query.Deliver);
             products = query.SortBy switch
             {
                 "newest" => products
@@ -85,9 +81,10 @@ namespace MegaMarketMall.Services.ProductService
 
         public async Task<IQueryable<Product>> FilterByParentCategoryIdAndQueriesAsync(ProductGet query, int parentCategoryId)
         {
-            IQueryable<Product> products = _context.Products.AsQueryable();
+            IQueryable<Product> products = GetProducts();
             products = await FilterByParentCategoryIdAsync(products, parentCategoryId);
             products = Filter(products, query);
+            products = Include(products);
             return products;
         }
 
@@ -100,82 +97,118 @@ namespace MegaMarketMall.Services.ProductService
         }
 
 
-        public async Task<QueryResponse<Product>> PaginateAsync(IQueryable<Product> products, IPage pages)
+        public async Task<QueryResponse<Product>> PaginateAsync(IQueryable<Product> products, IPage page)
         {
             var included = Include(products);
-            var result =await _repository.PaginateAsync(included, pages);
+            var result =await _repository.PaginateAsync(included, page);
             return result;
         }
 
-        public async Task<ProductViewResponse> PaginateProductViewsAsync(IQueryable<Product> products, IPage pages)
+        public async Task<ProductViewResponse> PaginateProductViewsAsync(IQueryable<Product> products, IPage page)
         {
-            int page = PageToIPage.GetPage(pages);
+            int currentPage = page.GetPage();
             var paginated = _repository.Paginate(products, page);
-            var pageCount = Math.Ceiling(await products.CountAsync() / PaginationConstant.CountElementsInPage);
+            var pageCount = Math.Ceiling(await products.CountAsync() / PaginationConstant.CountProductsInPage);
             return new ProductViewResponse
             {
-                Products = await ToListProductViewsAsync(products),
+                Products = await Select(paginated).ToListAsync(),
                 Pages = (int)pageCount,
-                CurrentPage = page
+                CurrentPage = currentPage
             };
 
         }
 
-        public async Task<List<ProductView>> ToListProductViewsAsync(IQueryable<Product> products)
+        public async Task<ProductViewResponse> PaginateProductViewsAsync(IQueryable<ProductView> products, IPage page)
         {
-            var result = await products.Select(product => new ProductView
+            int currentPage = page.GetPage();
+            var paginated = Paginate(products, page);
+            var pageCount = Math.Ceiling(await products.CountAsync() / PaginationConstant.CountProductsInPage);
+            return new ProductViewResponse
+            {
+                Products = await paginated.ToListAsync(),
+                Pages = (int)pageCount,
+                CurrentPage = currentPage
+            };
+        }
+
+        public IQueryable<ProductView> Select(IQueryable<Product> products)
+        {
+            var result = products.Select(product => new ProductView
             {
                 Id = product.Id,
                 Description = product.Description,
                 Price = product.Price,
                 Views = product.Views,
                 Favorites = product.Favorites,
-                Photos = product.Photos.Select(photo => photo.Path).ToList(),
+                Photos = product.Photos.Select(photo => photo.UrlPath).ToList(),
                 Category = new CategoryView
                 {
                     Id = product.CategoryId,
-                    Name = product.CategoryName
+                    Name = product.Category.Name
                 },
                 Seller = new SellerView
                 {
                     Username = product.Seller.Username,
-                    Phone = product.SellerPhone,
+                    Phone = product.Seller.Phone,
                     Avatar = product.Seller.Avatar
-                }
-            }).ToListAsync();
+                },
+                TimeStamp = product.TimeStampDay,
+                Updated = product.TimeStampDay,
+                Deliver = product.GetDeliverString()
+            }).AsQueryable();
             return result;
         }
+        
 
-        private IQueryable<Product> Include(IQueryable<Product> products)
+        public IQueryable<Product> Include(IQueryable<Product> products)
         {
-            var result = products.Include(product => product.Category).Include(product => product.Seller).AsQueryable();
+            var result = products
+                .Include(product => product.Category)
+                .Include(product => product.Seller)
+                .AsQueryable();
             return result;
             
         }
-        
-        private IQueryable<Product> Select(IQueryable<Product> products)
+        public IQueryable<Product> IncludeWithPhoto(IQueryable<Product> products)
         {
-            var result = products.Include(product => products.Select(obj => new
-            {
-                Created = obj.TimeStampDay,
-                
-                Seller = new {
-                    Username = obj.Seller.Username,
-                    Phone = obj.Seller.Phone,
-                    Avatar = obj.Seller.Avatar
-                }
-            })).AsQueryable();
+            var result = products
+                .Include(product => product.Category)
+                .Include(product => product.Seller)
+                .Include(p => p.Photos.Where(o => o.IsDeleted == false))
+                .AsQueryable();
             return result;
             
         }
-        
-        
 
-        public void MapProduct(Product product, BaseProductPut putData)
+        public IQueryable<Product> GetProducts()
         {
-            product.Description = putData.Description;
-            product.Price = putData.Price;
-            product.IsDelivered = putData.IsDelivered;
+            return _context.Products.AsQueryable();
         }
+
+        public IQueryable<ProductView> Paginate(IQueryable<ProductView> products, IPage page)
+        {
+            var currentPage = page.GetPage();
+            float countInPage = PaginationConstant.CountProductsInPage;
+            var result = products
+                .Skip(((currentPage - 1) * (int) countInPage))
+                .Take((int) countInPage).AsQueryable();
+            return result;
+        }
+
+        // public List<ProductView> Test()
+        // {
+        //     var products = GetProducts();
+        //     var included = Include(products);
+        //     var selected = included.Select(product => product.MapToProductView()).AsQueryable();
+        //     return selected.ToList();
+        // }
+
+
+        // public void MapProduct(Product product, BaseProductPut putData)
+        // {
+        //     product.Description = putData.Description;
+        //     product.Price = putData.Price;
+        //     product.IsDelivered = putData.IsDelivered;
+        // }
     }
 }

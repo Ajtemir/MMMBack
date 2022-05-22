@@ -2,6 +2,10 @@ namespace MegaMarketMall.Data.Constants
 {
     public static class PaginationConstant
     {
-        public static readonly float CountElementsInPage = 4F;
+        public const float CountProductsInPage = 4F;
+        public const float CountAdminsInPage = 4F; // TODO may delete
+        
     }
+
+    
 }

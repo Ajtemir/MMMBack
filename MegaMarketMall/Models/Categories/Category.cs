@@ -21,15 +21,17 @@ namespace MegaMarketMall.Models.Categories
         public int? ParentCategoryId { internal get; set; }
         [JsonIgnore]
         [ForeignKey("ParentCategoryId")]
-        public Category ParentCategory { get; set; }
+        public virtual Category ParentCategory { get; set; }
 
         [NotMapped] public string ParentCategoryName => ParentCategory?.Name;
         [JsonIgnore]
-        public List<Category> SubCategories { get; set; } = new();
+        public virtual List<Category> SubCategories { get; set; } = new();
         [JsonIgnore]
-        public List<Product> Products { get; set; } = new();
-
+        public virtual List<Product> Products { get; set; } = new();
+        [JsonIgnore]
+        public string RussianName { get; set; }
         [NotMapped] public bool IsParent => SubCategories.Any();
         //TODO think about IsParent
+        //TODO how many products count
     }
 }

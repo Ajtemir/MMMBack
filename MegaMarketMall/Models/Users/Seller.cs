@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using MegaMarketMall.Data.Constants;
+using MegaMarketMall.Data.Enums.Seller;
 using MegaMarketMall.Models.Products;
 
 namespace MegaMarketMall.Models.Users
@@ -8,13 +10,16 @@ namespace MegaMarketMall.Models.Users
     [Table("Seller")]
     public class Seller : User
     {
-        public string Nickname { get; set; } = null;
         public string Description { get; set; } = null;
         public int? AdAccount { get; set; } = null;
-        public override string Role { get; set; } = "Seller";
-        public List<Product> Products { get; set; } = new();
-        // public string Location { get; set; } = null;
+        public override string Role { get; set; } = UserRoles.Seller;
+        public SellerType Type { get; set; } = SellerType.Online;
+        public virtual Address Address { get; set; } = null;
+        public virtual ShopPlace ShopPlace { get; set; } = null;
+        public virtual List<Product> Products { get; set; } = new();
+        
 
+        
 
         //Todo подумать об проходах и контейерах
         // public int UserId { get; set; }

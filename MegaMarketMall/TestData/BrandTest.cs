@@ -12,11 +12,11 @@ namespace MegaMarketMall.TestData
     
     public class SmBrand : BrandTest
     {
-        public List<SewingMachine> SewingMachines { get; set; }
+        public virtual List<SewingMachine> SewingMachines { get; set; }
     }
 
     public class WMBrand : BrandTest
     {
-        public List<WashingMachine> WashingMachines { get; set; }
+        public virtual List<WashingMachine> WashingMachines { get; set; }
     }
 }

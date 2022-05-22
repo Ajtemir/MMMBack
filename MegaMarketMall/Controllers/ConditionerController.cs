@@ -1,14 +1,21 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using MegaMarketMall.Context;
+using MegaMarketMall.Data.Constants;
+using MegaMarketMall.Data.Enums.Conditioner;
 using MegaMarketMall.Data.Filters.Product;
+using MegaMarketMall.Data.Methods;
 using MegaMarketMall.Dtos.Get;
 using MegaMarketMall.Dtos.Post;
 using MegaMarketMall.Dtos.Put;
-using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments;
+using MegaMarketMall.Dtos.Response.BrandView;
+using MegaMarketMall.Models.Brands;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments.Conditioner;
-using MegaMarketMall.Repository;
+using MegaMarketMall.Repositories;
 using MegaMarketMall.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MegaMarketMall.Controllers
@@ -19,10 +26,12 @@ namespace MegaMarketMall.Controllers
     {
         private readonly IRepository<Conditioner> _repository;
         private readonly IConditionerService _conditioner;
-        public ConditionerController(IRepository<Conditioner> repository, IConditionerService conditioner)
+        private readonly ApplicationContext _context;
+        public ConditionerController(IRepository<Conditioner> repository, IConditionerService conditioner, ApplicationContext context)
         {
             _repository = repository;
             _conditioner = conditioner;
+            _context = context;
         }
 
         [HttpGet]
@@ -35,12 +44,14 @@ namespace MegaMarketMall.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Seller")]
+        // [Authorize(Roles = "Seller")]
         public async Task<ActionResult<Conditioner>> Create([FromForm]ConditionerPost conditioner)
         {
             await _conditioner.CreateAsync(conditioner);
             return Created("created",conditioner);
         }
+        
+        
 
         [HttpPut]
         [TypeFilter(typeof(ProductSellerAttribute))]
@@ -50,6 +61,21 @@ namespace MegaMarketMall.Controllers
             return Ok();
         }
         
+        // Properties for post request
+        [HttpGet("params/{property:alpha}")]
+        public ActionResult GetPropertiesOfProductChoicesFromEnum([FromRoute]string property)
+        {
+            var data = ProductAttributeConstants.DictEnums;
+            if (data.TryGetValue(property, out var type))
+            {
+                var response = EnumToDict.ConvertEnumToDict<Enum>(type);
+                return Ok(response);
+            }
+            else return BadRequest("No Such Parameters group");
+        }
+        
+        
+
         
     }
 }

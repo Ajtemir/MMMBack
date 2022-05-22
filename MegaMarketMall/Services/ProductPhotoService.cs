@@ -49,7 +49,7 @@ namespace MegaMarketMall.Services
                 ProductPhoto photo = new ProductPhoto
                 {
                     Name = fileName,
-                    Path = path,
+                    UrlPath = path,
                     ProductId = productId,
 
                 };
@@ -82,7 +82,7 @@ namespace MegaMarketMall.Services
                 ProductPhoto photo = new ProductPhoto()
                 {
                     Name = fileName,
-                    Path = path,
+                    UrlPath = path,
                 };
                 photos.Add(photo);
             }

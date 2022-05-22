@@ -5,7 +5,7 @@ using Newtonsoft.Json.Converters;
 namespace MegaMarketMall.Data.Enums.Conditioner
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum Types
+    public enum TypeConditioner
     {
         [EnumMember(Value="Внешний блок")]
         OutBlock=1,

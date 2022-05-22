@@ -65,7 +65,7 @@ namespace MegaMarketMall.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult> GetUser()
         {
-            return Ok(await _context.UserTests.FirstOrDefaultAsync(u=>u.Id==1));
+            return Ok(await _context.TestPersons.ToListAsync());
         }
     }
 }

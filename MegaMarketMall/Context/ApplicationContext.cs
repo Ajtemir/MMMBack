@@ -1,12 +1,6 @@
-using System;
-using MegaMarketMall.Data.Methods;
-using MegaMarketMall.Models.Brands;
 using MegaMarketMall.Models.Categories;
 using MegaMarketMall.Models.ProductPhotos;
 using MegaMarketMall.Models.Products;
-using MegaMarketMall.Models.Products.Cluster.Electronics;
-using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances;
-using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.Climatic_Equipments.Conditioner;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.OthersHouseHoldAppliances;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines;
@@ -32,10 +26,15 @@ namespace MegaMarketMall.Context
         public DbSet<WashingMachine> WashingMachines { get; set; }
         public DbSet<WristWatch> WristWatches { get; set; }
         public DbSet<SewingMachine> SewingMachines { get; set; }
+        
+        
 
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
         }
+        
+        
     }
+    
 }

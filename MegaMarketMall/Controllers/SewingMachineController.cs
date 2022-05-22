@@ -11,8 +11,9 @@ using MegaMarketMall.Dtos.Get.Cluster;
 using MegaMarketMall.Dtos.Patch;
 using MegaMarketMall.Dtos.Post;
 using MegaMarketMall.Dtos.Put.Cluster;
+using MegaMarketMall.Dtos.Response.QueryResponse;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.SewingMachines;
-using MegaMarketMall.Repository;
+using MegaMarketMall.Repositories;
 using MegaMarketMall.Services;
 using MegaMarketMall.Services.Cluster.SewingMachineService;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace MegaMarketMall.Controllers
         private readonly IMapper _mapper;
         private readonly IRepository<SewingMachine> _repository;
         private readonly ISewingMachineService _sewingMachineService;
-        private readonly IProductPhotoService _photo;
+        // private readonly IProductPhotoService _photo;
 
 
         public SewingMachineController(ApplicationContext context, IMapper mapper, IRepository<SewingMachine> repository, ISewingMachineService sewingMachineService, IProductPhotoService photo)
@@ -39,11 +40,10 @@ namespace MegaMarketMall.Controllers
             _mapper = mapper;
             _repository = repository;
             _sewingMachineService = sewingMachineService;
-            _photo = photo;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SewingMachine>>> Get([FromQuery]SewingMachineGet query)
+        public async Task<ActionResult<QueryResponse<SewingMachine>>> Get([FromQuery]SewingMachineGet query)
         {
             var products = _repository.Filter(query);
             var filtered = _sewingMachineService.Filter(products, query);
@@ -58,40 +58,7 @@ namespace MegaMarketMall.Controllers
             return Ok(product);
         }
 
-
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult> GetById(int id)
-        {
-            var data = await _context.SewingMachines.Include(p => p.Brand).Where(p => p.Id == id).Select(p => new
-            {
-                Бренд = p.Brand.Name,
-                Тип_петли = p.LoopType,
-                Тип_машинки = p.TypeOfSewingMachine
-            }).FirstOrDefaultAsync();
-            if (data is null)
-                return BadRequest();
-            return Ok(data);
-        }
-        // [HttpPatch("{id:int}")]
-        // public async Task<IActionResult> Patch(int id, [FromBody]JsonPatchDocument<SewingMachine> patch)
-        // {   
-        //     var product = await _context.SewingMachines.FirstOrDefaultAsync(p => p.Id == id);
-        //     var allowedProperties = new []{"SellerId", "Price"};
-        //     if (!patch.TryApplyToWithRestrictions(product,out var error,allowedProperties))
-        //         return BadRequest(error);
-        //     patch.ApplyToWithRestrictions(product,allowedProperties);
-        //     _context.Update(product);
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(e);
-        //     }
-        //     return Ok(patch);
-        // }
-
+        
         [HttpPut("{id:int}")]
         public async Task<ActionResult<SewingMachine>> Put(int id, SewingMachinePut put)
         {

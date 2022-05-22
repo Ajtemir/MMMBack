@@ -5,7 +5,7 @@ using MegaMarketMall.Dtos.Post;
 using MegaMarketMall.Dtos.Response;
 using MegaMarketMall.Dtos.Response.QueryResponse;
 using MegaMarketMall.Models.Products.Cluster.Electronics.HouseHoldAppliances.WashingMachines;
-using MegaMarketMall.Repository;
+using MegaMarketMall.Repositories;
 using MegaMarketMall.Services;
 using Microsoft.AspNetCore.Mvc;
 

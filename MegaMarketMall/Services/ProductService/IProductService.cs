@@ -19,13 +19,20 @@ namespace MegaMarketMall.Services.ProductService
         IQueryable<Product> Filter(ProductGet query);
         IQueryable<Product> Filter(IQueryable<Product> products,ProductGet query);
         Task<IQueryable<Product>> FilterByParentCategoryIdAndQueriesAsync(ProductGet query,int parentCategoryId);
+        IQueryable<Product> IncludeWithPhoto(IQueryable<Product> products);
         Task<IQueryable<Product>> FilterByParentCategoryIdAsync(IQueryable<Product> products,int parentCategoryId);
         Task<QueryResponse<Product>> PaginateAsync(IQueryable<Product> products, IPage pages);
-        Task<ProductViewResponse> PaginateProductViewsAsync(IQueryable<Product> products, IPage pages);
-        Task<List<ProductView>> ToListProductViewsAsync(IQueryable<Product> products);
+        Task<ProductViewResponse> PaginateProductViewsAsync(IQueryable<Product> products, IPage page);
+        Task<ProductViewResponse> PaginateProductViewsAsync(IQueryable<ProductView> products, IPage page);
+        IQueryable<ProductView> Select(IQueryable<Product> products);
+        IQueryable<Product> Include(IQueryable<Product> products);
+        IQueryable<Product> GetProducts();
 
-        
-        void MapProduct(Product product, BaseProductPut putData);
+        IQueryable<ProductView> Paginate(IQueryable<ProductView> products,IPage page);
+
+        // List<ProductView> Test();
+
+
 
 
 

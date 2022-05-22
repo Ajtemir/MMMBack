@@ -6,7 +6,7 @@ namespace MegaMarketMall.Dtos.Get
 {
     public class WashingMachineGet : ProductGet, IWashingMachine, IBrandGet
     {
-        public Type? Type { get; set; }
+        public TypeWashingMachine? Type { get; set; }
         public DownloadType? DownloadType { get; set; }
         public Size? Size { get; set; }
         public int? BrandId { get; set; }

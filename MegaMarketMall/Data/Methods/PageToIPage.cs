@@ -2,7 +2,7 @@ using MegaMarketMall.Data.Interfaces.Get;
 
 namespace MegaMarketMall.Data.Methods
 {
-    public class PageToIPage
+    public static class PageFromIPage
     {
         public static int GetPage(IPage page)
         {

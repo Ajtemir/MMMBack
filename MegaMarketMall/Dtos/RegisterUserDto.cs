@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using MegaMarketMall.Data.Attributes;
+using MegaMarketMall.Data.Interfaces.Avatar;
 using Microsoft.AspNetCore.Http;
 
 namespace MegaMarketMall.Dtos
 {
-    public class RegisterUserDto
+    public class RegisterUserDto : IAvatar
     {
         [Required]
         public string Email { get; set; } 

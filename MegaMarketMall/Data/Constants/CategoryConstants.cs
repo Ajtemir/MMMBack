@@ -6,5 +6,6 @@ namespace MegaMarketMall.Data.Constants
         public static int Electronics = 2;
         public static int PersonalItems = 3;
         public static int HouseHoldAppliances = 4;
+        public static int ClimaticEquipments = 7;
     }
 }
