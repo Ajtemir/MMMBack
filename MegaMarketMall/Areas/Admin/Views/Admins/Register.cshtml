@@ -1,0 +1,38 @@
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model MegaMarketMall.Areas.Admin.ViewModels.RegisterAdminViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+@if (ViewBag.Success is not null)
+{
+  <h1>@ViewBag.Success</h1>
+}
+
+<a href="@Url.Action("AllAdmin", "Admins")">
+       <button type="button" class="btn btn-primary btn-lg">Administrators</button>
+</a>
+
+<a href="@Url.Action("Logout", "Auth")">
+       <button type="button" class="btn btn-primary btn-lg">Log out</button>
+</a>
+
+<div class="validation" asp-validation-summary="ModelOnly"></div>
+<form class="col-4" action="@Url.Action("Register")" method="post">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="@Model?.Email">
+    @Html.ValidationMessageFor(m => m.Email)
+
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    @Html.ValidationMessageFor(m => m.Password)
+
+  </div>
+  <div class="form-group form-check">
+  </div>
+  <button type="submit" class="btn btn-primary">Registrate Admin</button>
+</form>

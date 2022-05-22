@@ -1,0 +1,29 @@
+@using Microsoft.IdentityModel.Tokens
+@using System.Security.Cryptography
+@model System.Collections.Generic.List<MegaMarketMall.Models.Users.Admin>
+
+@{
+    ViewBag.Title = "List of Admins";
+    Layout = "_Layout";
+}
+<a href='@Url.Action("Register")'><button class="btn btn-primary">Add new Admin</button></a>
+@if (@Model.IsNullOrEmpty())
+{
+    <h1>There is no admin, <a href='@Url.Action("Register")'>add the new one!!!</a></h1>
+}
+
+else
+{
+    @foreach (var @admin in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@admin.Email</h5>
+                <h6 class="card-subtitle mb-2 text-muted">admin id => @admin.Id</h6>
+                @* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> *@
+                <a href="#" class="card-link">Change</a>
+                <a href='@Url.Action("Delete", "Admins", new {Id = @admin.Id})' class="card-link">Delete</a>
+            </div>
+        </div>
+    }
+}

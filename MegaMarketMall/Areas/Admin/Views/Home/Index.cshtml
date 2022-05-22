@@ -1,0 +1,34 @@
+@using MegaMarketMall.Models.Users
+@model System.Collections.Generic.List<MegaMarketMall.Models.Products.Product>
+
+@{
+    ViewData["Title"] = "Список смартфонов";
+    Layout = "_Layout";
+}
+@if (Context.User.IsInRole("Owner"))
+{
+    <a href="@Url.Action("AllAdmin", "Admins")">
+           <button type="button" class="btn btn-primary btn-lg">Administrators</button>
+    </a>
+}
+<a href="@Url.Action("Logout", "Auth")">
+    <button type="button" class="btn btn-primary btn-lg">Log out</button>
+</a>
+
+<a href="@Url.Action("AllAdmin", "Admins")">
+    <button type="button" class="btn btn-primary btn-lg">Sellers</button>
+</a>
+
+<a href="@Url.Action("AllAdmin", "Admins")">
+    <button type="button" class="btn btn-primary btn-lg">Users</button>
+</a>
+
+<div>
+   @foreach (var product in Model){
+       <tr>
+           <td>@product.Category.Name</td>
+           <td>@product.Id</td>
+           <br>
+       </tr>
+   }   
+</div>
